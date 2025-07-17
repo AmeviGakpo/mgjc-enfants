@@ -5,10 +5,10 @@ const path = require('path');
 const multer = require('multer');
 const app = express();
 
-// Configuration du port pour les hébergeurs cloud
-const PORT = process.env.PORT || 3000;
+// Configuration du port pour Render
+const PORT = process.env.PORT || 10000;
 
-// Configuration CORS améliorée pour le déploiement
+// Configuration CORS optimisée pour Render
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
         ? ['https://mgjc-enfants.onrender.com', 'https://*.onrender.com']
@@ -21,6 +21,17 @@ app.use(cors({
 // Middleware pour parser le JSON avec limite augmentée
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Servir les fichiers statiques (important pour Render)
+app.use(express.static(path.join(__dirname)));
+
+// Route racine pour servir le fichier HTML
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'maquette.html'));
+});
+
+// Route pour servir les images uploadées
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware de sécurité pour les uploads
 const uploadDir = path.join(__dirname, 'uploads');
@@ -386,17 +397,6 @@ app.use((error, req, res, next) => {
     next(error);
 });
 
-// Servir les fichiers statiques (HTML, CSS, images)
-app.use(express.static(path.join(__dirname)));
-
-// Route pour servir les fichiers uploadés avec sécurité
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Route principale pour servir l'application
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'maquette.html'));
-});
-
 // Route pour exporter toutes les données
 app.get('/api/export', async (req, res) => {
     try {
@@ -456,32 +456,57 @@ app.post('/api/backup', async (req, res) => {
     }
 });
 
-// Route de test pour vérifier que le serveur fonctionne
-app.get('/api/health', (req, res) => {
-    res.json({
-        success: true,
-        message: 'Serveur MGJC Enfants opérationnel',
-        timestamp: new Date().toISOString(),
-        version: '1.0.0',
-        environment: process.env.NODE_ENV || 'development',
-        port: PORT
-    });
+// Route de santé du serveur
+app.get('/api/health', async (req, res) => {
+    try {
+        // Vérifier l'état des dossiers
+        const uploadsExists = await fs.access(uploadDir).then(() => true).catch(() => false);
+        const dataExists = await fs.access(dataDir).then(() => true).catch(() => false);
+        const backupExists = await fs.access(backupDir).then(() => true).catch(() => false);
+        
+        // Vérifier l'accès au fichier de données
+        let dataAccessible = false;
+        try {
+            await readEnfantsData();
+            dataAccessible = true;
+        } catch (error) {
+            console.error('Erreur d\'accès aux données:', error);
+        }
+        
+        const healthStatus = {
+            success: true,
+            message: 'Serveur MGJC Enfants opérationnel',
+            timestamp: new Date().toISOString(),
+            environment: process.env.NODE_ENV || 'development',
+            directories: {
+                uploads: uploadsExists,
+                data: dataExists,
+                backup: backupExists
+            },
+            dataAccessible: dataAccessible,
+            uptime: process.uptime()
+        };
+        
+        res.json(healthStatus);
+    } catch (error) {
+        console.error('Erreur lors de la vérification de santé:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur lors de la vérification de santé',
+            error: process.env.NODE_ENV === 'development' ? error.message : 'Erreur interne'
+        });
+    }
 });
 
-// Route pour obtenir les informations du serveur
+// Route pour récupérer les informations du serveur
 app.get('/api/info', (req, res) => {
     res.json({
         success: true,
-        data: {
-            name: 'MGJC Enfants Server',
-            version: '1.0.0',
-            environment: process.env.NODE_ENV || 'development',
-            port: PORT,
-            uptime: process.uptime(),
-            memory: process.memoryUsage(),
-            platform: process.platform,
-            nodeVersion: process.version
-        }
+        message: 'Informations du serveur MGJC Enfants',
+        version: '1.0.0',
+        environment: process.env.NODE_ENV || 'development',
+        port: PORT,
+        timestamp: new Date().toISOString()
     });
 });
 

@@ -11,4 +11,8 @@ services:
       - key: PORT
         value: 10000
     healthCheckPath: /api/health
-    autoDeploy: true 
+    autoDeploy: true
+    # Ajout de configurations pour éviter les timeouts
+    maxConcurrency: 1
+    # Configuration pour les fichiers statiques
+    staticPublishPath: . 
