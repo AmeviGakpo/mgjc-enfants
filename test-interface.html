@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Interface MGJC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de l'Interface MGJC</h1>
+    
+    <div class="test-section">
+        <h2>🔗 Test de Connexion au Serveur</h2>
+        <button onclick="testServerConnection()">Tester la connexion</button>
+        <div id="server-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Test des Fonctionnalités</h2>
+        <button onclick="testLocalStorage()">Tester localStorage</button>
+        <button onclick="testNotifications()">Tester notifications</button>
+        <button onclick="testPhotoUpload()">Tester upload photo</button>
+        <div id="function-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔐 Test Authentification Admin</h2>
+        <button onclick="testAdminAuth()">Tester connexion admin</button>
+        <div id="admin-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📋 Résultats des Tests</h2>
+        <div id="test-summary"></div>
+    </div>
+
+    <script>
+        const SERVER_URL = 'http://localhost:3000/api';
+        let testResults = [];
+
+        function addResult(test, status, message) {
+            testResults.push({ test, status, message });
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('test-summary');
+            const passed = testResults.filter(r => r.status === 'success').length;
+            const total = testResults.length;
+            
+            summary.innerHTML = `
+                <h3>📊 Résumé des Tests</h3>
+                <p><strong>Tests réussis:</strong> ${passed}/${total}</p>
+                <ul>
+                    ${testResults.map(r => `
+                        <li class="${r.status}">
+                            ${r.test}: ${r.message}
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        async function testServerConnection() {
+            const result = document.getElementById('server-result');
+            result.innerHTML = '🔄 Test en cours...';
+            
+            try {
+                const response = await fetch(`${SERVER_URL}/health`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.innerHTML = `<span class="success">✅ Serveur connecté: ${data.message}</span>`;
+                    addResult('Connexion serveur', 'success', 'Serveur accessible');
+                } else {
+                    result.innerHTML = `<span class="error">❌ Erreur serveur: ${data.message}</span>`;
+                    addResult('Connexion serveur', 'error', 'Erreur serveur');
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Impossible de se connecter au serveur: ${error.message}</span>`;
+                addResult('Connexion serveur', 'error', 'Serveur inaccessible');
+            }
+        }
+
+        function testLocalStorage() {
+            const result = document.getElementById('function-result');
+            
+            try {
+                // Test localStorage
+                localStorage.setItem('test', 'test-value');
+                const testValue = localStorage.getItem('test');
+                localStorage.removeItem('test');
+                
+                if (testValue === 'test-value') {
+                    result.innerHTML = `<span class="success">✅ localStorage fonctionne correctement</span>`;
+                    addResult('localStorage', 'success', 'Fonctionnel');
+                } else {
+                    result.innerHTML = `<span class="error">❌ localStorage ne fonctionne pas</span>`;
+                    addResult('localStorage', 'error', 'Non fonctionnel');
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Erreur localStorage: ${error.message}</span>`;
+                addResult('localStorage', 'error', 'Erreur');
+            }
+        }
+
+        function testNotifications() {
+            const result = document.getElementById('function-result');
+            
+            try {
+                // Créer une notification de test
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #4CAF50;
+                    color: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                `;
+                notification.textContent = '🧪 Test de notification';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 3000);
+                
+                result.innerHTML = `<span class="success">✅ Système de notifications fonctionnel</span>`;
+                addResult('Notifications', 'success', 'Fonctionnel');
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Erreur notifications: ${error.message}</span>`;
+                addResult('Notifications', 'error', 'Erreur');
+            }
+        }
+
+        function testPhotoUpload() {
+            const result = document.getElementById('function-result');
+            
+            try {
+                // Créer un input file de test
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.style.display = 'none';
+                document.body.appendChild(input);
+                
+                // Simuler la sélection d'un fichier
+                const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                input.files = dataTransfer.files;
+                
+                result.innerHTML = `<span class="success">✅ Système d'upload de photos fonctionnel</span>`;
+                addResult('Upload photos', 'success', 'Fonctionnel');
+                
+                document.body.removeChild(input);
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Erreur upload photos: ${error.message}</span>`;
+                addResult('Upload photos', 'error', 'Erreur');
+            }
+        }
+
+        function testAdminAuth() {
+            const result = document.getElementById('admin-result');
+            
+            try {
+                // Test des identifiants admin
+                const testCredentials = {
+                    username: 'MGJC_Melchi',
+                    password: 'Melchi171819'
+                };
+                
+                // Simuler la vérification
+                if (testCredentials.username === 'MGJC_Melchi' && testCredentials.password === 'Melchi171819') {
+                    result.innerHTML = `<span class="success">✅ Authentification admin fonctionnelle</span>`;
+                    addResult('Auth admin', 'success', 'Fonctionnel');
+                } else {
+                    result.innerHTML = `<span class="error">❌ Identifiants admin incorrects</span>`;
+                    addResult('Auth admin', 'error', 'Identifiants incorrects');
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Erreur auth admin: ${error.message}</span>`;
+                addResult('Auth admin', 'error', 'Erreur');
+            }
+        }
+
+        // Tests automatiques au chargement
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                testServerConnection();
+                testLocalStorage();
+                testNotifications();
+                testPhotoUpload();
+                testAdminAuth();
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,3707 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquette Enfant</title>
+    <link rel="stylesheet" href="maquette.css">
+</head>
+<body>
+    <!-- Navbar réutilisée -->
+    <div class="navbar">
+        <div class="left">
+            <img src="LOGO CHURCH 2025.jpg" alt="Logo Church" class="logo-church">
+            <h2 class="company-name">
+                <span class="red">M</span>
+                <span class="blue">G</span>
+                <span class="yellow">J</span>
+                <span class="green">C</span>
+            </h2>
+        </div>
+        <div class="middle">
+            <ul>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Liste des enfants ▼</a>
+                    <div class="dropdown-menu" id="dropdown-menu-enfants">
+                        <!-- La liste sera générée dynamiquement à partir des enfants enregistrés -->
+                        <div class="dropdown-section empty-state" style="display: none;">
+                            <h4>Aucun enfant enregistré</h4>
+                            <p>Utilisez le bouton "Ajouter" pour créer un nouvel enfant</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="add-enfant-btn" id="add-enfant-container" style="display: none;">
+                    <a href="#" class="btn-add-enfant">+ Ajouter</a>
+                </li>
+                <li class="admin-dropdown">
+                    <a href="#" class="admin-toggle">Admin ▼</a>
+                    <a href="#" class="admin-connected" style="display: none;">🔓 Connecté</a>
+                    <div class="admin-menu">
+                        <div class="login-section">
+                            <h4>🔐 Connexion Administrateur</h4>
+                            <form id="admin-login-form">
+                                <div class="form-group-admin">
+                                    <label for="username">Nom d'utilisateur :</label>
+                                    <input type="text" id="username" name="username" placeholder="Entrez votre nom d'utilisateur" required>
+                                </div>
+                                <div class="form-group-admin">
+                                    <label for="password">Mot de passe :</label>
+                                    <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+                                </div>
+                                <div class="form-group-admin">
+                                    <label for="email">Email de confirmation :</label>
+                                    <input type="email" id="email" name="email" value="koffilebon7@gmail.com" readonly>
+                                </div>
+                                <button type="submit" class="btn-login">Envoyer le code de vérification</button>
+                            </form>
+                        </div>
+                        <div class="verification-section" style="display: none;">
+                            <h4>📧 Vérification par Email</h4>
+                            <p>Un code de vérification a été envoyé à <strong>koffilebon7@gmail.com</strong></p>
+                            <form id="verification-form">
+                                <div class="form-group-admin">
+                                    <label for="verification-code">Code de vérification :</label>
+                                    <input type="text" id="verification-code" name="verification-code" placeholder="Entrez le code à 4 chiffres" maxlength="4" minlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="one-time-code" required>
+                                </div>
+                                <button type="submit" class="btn-verify">Confirmer la connexion</button>
+                                <button type="button" class="btn-resend">Renvoyer le code</button>
+                            </form>
+                        </div>
+                        <div class="admin-actions" style="display: none;">
+                            <h4>⚙️ Actions Administratives</h4>
+                            <ul>
+                                <li><a href="#" class="admin-action" data-action="add-enfant">➕ Ajouter un enfant</a></li>
+                                <li><a href="#" class="admin-action" data-action="edit-enfant">✏️ Modifier un enfant</a></li>
+                                <li><a href="#" class="admin-action" data-action="delete-enfant">🗑️ Supprimer un enfant</a></li>
+                                <li><a href="#" class="admin-action" data-action="export-data">📊 Exporter les données</a></li>
+                                <li><a href="#" class="admin-action" data-action="backup">💾 Sauvegarde système</a></li>
+                                <li><a href="#" class="admin-action" data-action="logout">🚪 Se déconnecter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            <input type="text" class="search-box" id="searchInput" placeholder="Rechercher un enfant par nom ou prénom...">
+            <button class="search-button" id="searchButton">🔍 Chercher</button>
+        </div>
+    </div>
+    
+    <!-- Div mobile pour écrans ≤ 767px -->
+    <div class="mobile-div">
+        <div class="mobile-dropdown">
+            <a href="#" class="dropdown-toggle">Liste des enfants ▼</a>
+            <div class="dropdown-menu" id="mobile-dropdown-menu-enfants">
+                <!-- La liste sera générée dynamiquement à partir des enfants enregistrés -->
+                <div class="dropdown-section empty-state" style="display: none;">
+                    <h4>Aucun enfant enregistré</h4>
+                    <p>Utilisez le bouton "Ajouter" pour créer un nouvel enfant</p>
+                </div>
+                
+                <!-- Sections pour les enfants par classe -->
+                <div class="dropdown-section" id="mobile-section-6eme" style="display: none;">
+                    <h4>📚 6ème</h4>
+                    <ul id="mobile-liste-6eme"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-5eme" style="display: none;">
+                    <h4>📚 5ème</h4>
+                    <ul id="mobile-liste-5eme"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-4eme" style="display: none;">
+                    <h4>📚 4ème</h4>
+                    <ul id="mobile-liste-4eme"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-3eme" style="display: none;">
+                    <h4>📚 3ème</h4>
+                    <ul id="mobile-liste-3eme"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-2nde" style="display: none;">
+                    <h4>📚 2nde</h4>
+                    <ul id="mobile-liste-2nde"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-1ere" style="display: none;">
+                    <h4>📚 1ère</h4>
+                    <ul id="mobile-liste-1ere"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-terminale" style="display: none;">
+                    <h4>📚 Terminale</h4>
+                    <ul id="mobile-liste-terminale"></ul>
+                </div>
+                
+                <div class="dropdown-section" id="mobile-section-autre" style="display: none;">
+                    <h4>📚 Autres classes</h4>
+                    <ul id="mobile-liste-autre"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-search">
+            <input type="text" id="mobileSearchInput" placeholder="Rechercher un enfant par nom ou prénom...">
+            <button id="mobileSearchButton">🔍 Chercher</button>
+        </div>
+    </div>
+    
+    <!-- Contenu principal -->
+    <div class="maquette-container">
+        <div class="ecran-info">
+            <!-- Section Photo et Identité côte à côte -->
+            <div class="photo-identite-container">
+                <!-- Section Photo -->
+                <div class="photo-section">
+                    <div class="photo-display">
+                        <img src="https://via.placeholder.com/35x45.png?text=Photo" alt="Photo de l'enfant" class="photo-enfant" id="photoEnfant">
+                    </div>
+                                    <div class="photo-controls">
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                    
+                    <!-- Boutons d'action -->
+                    <div class="photo-actions" id="admin-actions" style="display: none;">
+                        <div class="boutons-rang-1">
+                            <button class="btn-sauvegarder" onclick="sauvegarderDonnees()">💾 Sauvegarder</button>
+                            <button class="btn-charger" onclick="chargerDonnees()">📂 Charger</button>
+                            <button class="btn-modifier" onclick="modifierEnfant()">✏️ Modifier</button>
+                        </div>
+                        <div class="boutons-rang-2">
+                            <button class="btn-photo" id="btn-photo" onclick="document.getElementById('photoInput').click()" style="display: none;">📷 Sélectionner une photo</button>
+                            <button class="btn-supprimer" onclick="supprimerEnfantDirect()">🗑️ Supprimer</button>
+                            <button class="btn-generer" onclick="genererImage()">🖼️ Générer Image JPEG</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                                <!-- Section Identité et Résultats -->
+                <div class="identite-section">
+                    <div class="section-container identite-container">
+                        <!-- Titre desktop -->
+                        <h3 class="section-title identite-title-desktop">Informations d'identité</h3>
+                        
+                        <!-- Contenu du formulaire -->
+                            <div class="identite-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nom">Nom :</label>
+                                    <input type="text" id="nom" name="nom" placeholder="Nom de famille" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prenom">Prénom :</label>
+                                    <input type="text" id="prenom" name="prenom" placeholder="Prénom" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age">Âge :</label>
+                                    <input type="number" id="age" name="age" placeholder="Âge en années" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="classe">Classe :</label>
+                                    <input type="text" id="classe" name="classe" placeholder="Ex: 6ème" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nationalite">Nationalité :</label>
+                                    <input type="text" id="nationalite" name="nationalite" placeholder="Nationalité" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ethnie">Ethnie :</label>
+                                    <input type="text" id="ethnie" name="ethnie" placeholder="Ethnie" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nbFreres">Nombre de frères :</label>
+                                    <input type="number" id="nbFreres" name="nbFreres" placeholder="Nombre" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nbSoeurs">Nombre de sœurs :</label>
+                                    <input type="number" id="nbSoeurs" name="nbSoeurs" placeholder="Nombre" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nomPere">Nom du père :</label>
+                                    <input type="text" id="nomPere" name="nomPere" placeholder="Nom du père" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nomMere">Nom de la mère :</label>
+                                    <input type="text" id="nomMere" name="nomMere" placeholder="Nom de la mère" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="membreFamille">Membre de famille connu :</label>
+                                    <input type="text" id="membreFamille" name="membreFamille" placeholder="Nom du membre" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactMembre">Contact du membre :</label>
+                                    <input type="text" id="contactMembre" name="contactMembre" placeholder="Téléphone/Email" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Orphelin de :</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="orphelinPere" name="orphelinPere" disabled>
+                                            Père
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="orphelinMere" name="orphelinMere" disabled>
+                                            Mère
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Disparu(e) :</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="disparuPere" name="disparuPere" disabled>
+                                            Père
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="disparuMere" name="disparuMere" disabled>
+                                            Mère
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="signeParticulier">Signe particulier :</label>
+                                    <input type="text" id="signeParticulier" name="signeParticulier" placeholder="Signe particulier" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Résultats de l'année en cours -->
+                    <div class="section-container resultat-container">
+                        <h3 class="section-title">Résultat scolaire de l'année en cours</h3>
+                        
+                        <!-- Section mobile pour 1er Trimestre (≤767px) -->
+                        <div class="mobile-premier-trimestre">
+                            <div class="colonne-titre colonne-1er">
+                                <h4>1er Trimestre</h4>
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="moyenne1-mobile">Moyenne du 1er trimestre :</label>
+                                <input type="number" id="moyenne1-mobile" name="moyenne1-mobile" step="0.01" placeholder="Ex: 9.69">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="rang1-mobile">Rang 1er trimestre :</label>
+                                <input type="text" id="rang1-mobile" name="rang1-mobile" placeholder="Ex: 32ème">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="effectif1-mobile">Effectif total des élèves 1er :</label>
+                                <input type="number" id="effectif1-mobile" name="effectif1-mobile" placeholder="Ex: 38">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="forteMoyenne1-mobile">Forte moyenne de la classe 1er :</label>
+                                <input type="number" id="forteMoyenne1-mobile" name="forteMoyenne1-mobile" step="0.01" placeholder="Ex: 15.5">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="faibleMoyenne1-mobile">Faible moyenne de la classe 1er :</label>
+                                <input type="number" id="faibleMoyenne1-mobile" name="faibleMoyenne1-mobile" step="0.01" placeholder="Ex: 5.2">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="appreciation1-mobile">Appréciation 1er :</label>
+                                <select id="appreciation1-mobile" name="appreciation1-mobile" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="A">A - Très satisfaisant</option>
+                                    <option value="B">B - Satisfaisant</option>
+                                    <option value="C">C - Assez satisfaisant</option>
+                                    <option value="D">D - Moyen</option>
+                                    <option value="E">E - Insuffisant</option>
+                                    <option value="F">F - Très insuffisant</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Section mobile pour 2ème Trimestre (≤767px) -->
+                        <div class="mobile-deuxieme-trimestre">
+                            <div class="colonne-titre colonne-2eme">
+                                <h4>2ème Trimestre</h4>
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="moyenne2-mobile">Moyenne du 2ème trimestre :</label>
+                                <input type="number" id="moyenne2-mobile" name="moyenne2-mobile" step="0.01" placeholder="Ex: 9.84">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="rang2-mobile">Rang 2ème trimestre :</label>
+                                <input type="text" id="rang2-mobile" name="rang2-mobile" placeholder="Ex: 32ème">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="effectif2-mobile">Effectif total des élèves 2ème :</label>
+                                <input type="number" id="effectif2-mobile" name="effectif2-mobile" placeholder="Ex: 38">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="forteMoyenne2-mobile">Forte moyenne de la classe 2ème :</label>
+                                <input type="number" id="forteMoyenne2-mobile" name="forteMoyenne2-mobile" step="0.01" placeholder="Ex: 16.2">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="faibleMoyenne2-mobile">Faible moyenne de la classe 2ème :</label>
+                                <input type="number" id="faibleMoyenne2-mobile" name="faibleMoyenne2-mobile" step="0.01" placeholder="Ex: 4.8">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="appreciation2-mobile">Appréciation 2ème :</label>
+                                <select id="appreciation2-mobile" name="appreciation2-mobile" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="A">A - Très satisfaisant</option>
+                                    <option value="B">B - Satisfaisant</option>
+                                    <option value="C">C - Assez satisfaisant</option>
+                                    <option value="D">D - Moyen</option>
+                                    <option value="E">E - Insuffisant</option>
+                                    <option value="F">F - Très insuffisant</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Section mobile pour 3ème Trimestre (≤767px) -->
+                        <div class="mobile-troisieme-trimestre">
+                            <div class="colonne-titre colonne-3eme">
+                                <h4>3ème Trimestre</h4>
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="moyenne3-mobile">Moyenne du 3ème trimestre :</label>
+                                <input type="number" id="moyenne3-mobile" name="moyenne3-mobile" step="0.01" placeholder="Ex: 10.25">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="rang3-mobile">Rang 3ème trimestre :</label>
+                                <input type="text" id="rang3-mobile" name="rang3-mobile" placeholder="Ex: 30ème">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="effectif3-mobile">Effectif total des élèves 3ème :</label>
+                                <input type="number" id="effectif3-mobile" name="effectif3-mobile" placeholder="Ex: 38">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="forteMoyenne3-mobile">Forte moyenne de la classe 3ème :</label>
+                                <input type="number" id="forteMoyenne3-mobile" name="forteMoyenne3-mobile" step="0.01" placeholder="Ex: 16.8">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="faibleMoyenne3-mobile">Faible moyenne de la classe 3ème :</label>
+                                <input type="number" id="faibleMoyenne3-mobile" name="faibleMoyenne3-mobile" step="0.01" placeholder="Ex: 4.5">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="appreciation3-mobile">Appréciation 3ème :</label>
+                                <select id="appreciation3-mobile" name="appreciation3-mobile" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="A">A - Très satisfaisant</option>
+                                    <option value="B">B - Satisfaisant</option>
+                                    <option value="C">C - Assez satisfaisant</option>
+                                    <option value="D">D - Moyen</option>
+                                    <option value="E">E - Insuffisant</option>
+                                    <option value="F">F - Très insuffisant</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Section desktop pour tous les trimestres -->
+                        <div class="resultat-form">
+                        <div class="colonne-titre colonne-1er">
+                            <h4>1er Trimestre</h4>
+                        </div>
+                        <div class="colonne-titre colonne-2eme">
+                            <h4>2ème Trimestre</h4>
+                        </div>
+                        <div class="colonne-titre colonne-3eme">
+                            <h4>3ème Trimestre</h4>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="moyenne1">Moyenne 1er Trimestre :</label>
+                            <input type="number" id="moyenne1" name="moyenne1" step="0.01" placeholder="Ex: 9.69">
+                        </div>
+                        <div class="form-group">
+                            <label for="moyenne2">Moyenne 2ème Trimestre :</label>
+                            <input type="number" id="moyenne2" name="moyenne2" step="0.01" placeholder="Ex: 9.84">
+                        </div>
+                        <div class="form-group">
+                            <label for="moyenne3">Moyenne 3ème Trimestre :</label>
+                            <input type="number" id="moyenne3" name="moyenne3" step="0.01" placeholder="Ex: 10.25">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rang1">Rang 1er Trimestre :</label>
+                            <input type="text" id="rang1" name="rang1" placeholder="Ex: 32ème">
+                        </div>
+                        <div class="form-group">
+                            <label for="rang2">Rang 2ème Trimestre :</label>
+                            <input type="text" id="rang2" name="rang2" placeholder="Ex: 32ème">
+                        </div>
+                        <div class="form-group">
+                            <label for="rang3">Rang 3ème Trimestre :</label>
+                            <input type="text" id="rang3" name="rang3" placeholder="Ex: 30ème">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="effectif1">Effectif total des élèves 1er :</label>
+                            <input type="number" id="effectif1" name="effectif1" placeholder="Ex: 38">
+                        </div>
+                        <div class="form-group">
+                            <label for="effectif2">Effectif total des élèves 2ème :</label>
+                            <input type="number" id="effectif2" name="effectif2" placeholder="Ex: 38">
+                        </div>
+                        <div class="form-group">
+                            <label for="effectif3">Effectif total des élèves 3ème :</label>
+                            <input type="number" id="effectif3" name="effectif3" placeholder="Ex: 38">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="forteMoyenne1">Forte moyenne de la classe 1er :</label>
+                            <input type="number" id="forteMoyenne1" name="forteMoyenne1" step="0.01" placeholder="Ex: 15.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="forteMoyenne2">Forte moyenne de la classe 2ème :</label>
+                            <input type="number" id="forteMoyenne2" name="forteMoyenne2" step="0.01" placeholder="Ex: 16.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="forteMoyenne3">Forte moyenne de la classe 3ème :</label>
+                            <input type="number" id="forteMoyenne3" name="forteMoyenne3" step="0.01" placeholder="Ex: 16.8">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="faibleMoyenne1">Faible moyenne de la classe 1er :</label>
+                            <input type="number" id="faibleMoyenne1" name="faibleMoyenne1" step="0.01" placeholder="Ex: 5.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="faibleMoyenne2">Faible moyenne de la classe 2ème :</label>
+                            <input type="number" id="faibleMoyenne2" name="faibleMoyenne2" step="0.01" placeholder="Ex: 4.8">
+                        </div>
+                        <div class="form-group">
+                            <label for="faibleMoyenne3">Faible moyenne de la classe 3ème :</label>
+                            <input type="number" id="faibleMoyenne3" name="faibleMoyenne3" step="0.01" placeholder="Ex: 4.5">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appreciation1">Appréciation 1er :</label>
+                            <select id="appreciation1" name="appreciation1" class="appreciation-select">
+                                <option value="">Choisir...</option>
+                                <option value="A">A - Très satisfaisant</option>
+                                <option value="B">B - Satisfaisant</option>
+                                <option value="C">C - Assez satisfaisant</option>
+                                <option value="D">D - Moyen</option>
+                                <option value="E">E - Insuffisant</option>
+                                <option value="F">F - Très insuffisant</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="appreciation2">Appréciation 2ème :</label>
+                            <select id="appreciation2" name="appreciation2" class="appreciation-select">
+                                <option value="">Choisir...</option>
+                                <option value="A">A - Très satisfaisant</option>
+                                <option value="B">B - Satisfaisant</option>
+                                <option value="C">C - Assez satisfaisant</option>
+                                <option value="D">D - Moyen</option>
+                                <option value="E">E - Insuffisant</option>
+                                <option value="F">F - Très insuffisant</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="appreciation3">Appréciation 3ème :</label>
+                            <select id="appreciation3" name="appreciation3" class="appreciation-select">
+                                <option value="">Choisir...</option>
+                                <option value="A">A - Très satisfaisant</option>
+                                <option value="B">B - Satisfaisant</option>
+                                <option value="C">C - Assez satisfaisant</option>
+                                <option value="D">D - Moyen</option>
+                                <option value="E">E - Insuffisant</option>
+                                <option value="F">F - Très insuffisant</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <!-- Section Résultat Global -->
+                    <div class="section-container resultat-global-container">
+                        <h3 class="section-title">Résultat global de l'année</h3>
+                        
+                        <!-- Section mobile pour Résultat Global (≤767px) -->
+                        <div class="mobile-resultat-global">
+                            <div class="mobile-form-group">
+                                <label for="moyenneAnnuelle-mobile">Moyenne annuelle :</label>
+                                <input type="number" id="moyenneAnnuelle-mobile" name="moyenneAnnuelle-mobile" step="0.01" placeholder="Ex: 10.12">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="rangAnnuel-mobile">Rang annuel :</label>
+                                <input type="text" id="rangAnnuel-mobile" name="rangAnnuel-mobile" placeholder="Ex: 25ème">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="effectifAnnuel-mobile">Effectif total des élèves :</label>
+                                <input type="number" id="effectifAnnuel-mobile" name="effectifAnnuel-mobile" placeholder="Ex: 38">
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="appreciationAnnuelle-mobile">Appréciation annuelle :</label>
+                                <select id="appreciationAnnuelle-mobile" name="appreciationAnnuelle-mobile" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="A">A - Très satisfaisant</option>
+                                    <option value="B">B - Satisfaisant</option>
+                                    <option value="C">C - Assez satisfaisant</option>
+                                    <option value="D">D - Moyen</option>
+                                    <option value="E">E - Insuffisant</option>
+                                    <option value="F">F - Très insuffisant</option>
+                                </select>
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="decision-mobile">Décision :</label>
+                                <select id="decision-mobile" name="decision-mobile" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="Admis">Admis</option>
+                                    <option value="Admis avec mention">Admis avec mention</option>
+                                    <option value="Admis avec félicitations">Admis avec félicitations</option>
+                                    <option value="Redoublement">Redoublement</option>
+                                    <option value="Orientation">Orientation</option>
+                                </select>
+                            </div>
+                            <div class="mobile-form-group">
+                                <label for="classeSuivante-mobile">Classe suivante :</label>
+                                <input type="text" id="classeSuivante-mobile" name="classeSuivante-mobile" placeholder="Ex: 5ème">
+                            </div>
+                        </div>
+                        
+                        <!-- Section desktop pour Résultat Global -->
+                        <div class="resultat-global-form">
+                            <div class="form-group">
+                                <label for="moyenneAnnuelle">Moyenne annuelle :</label>
+                                <input type="number" id="moyenneAnnuelle" name="moyenneAnnuelle" step="0.01" placeholder="Ex: 10.12">
+                            </div>
+                            <div class="form-group">
+                                <label for="rangAnnuel">Rang annuel :</label>
+                                <input type="text" id="rangAnnuel" name="rangAnnuel" placeholder="Ex: 25ème">
+                            </div>
+                            <div class="form-group">
+                                <label for="effectifAnnuel">Effectif total des élèves :</label>
+                                <input type="number" id="effectifAnnuel" name="effectifAnnuel" placeholder="Ex: 38">
+                            </div>
+                            <div class="form-group">
+                                <label for="appreciationAnnuelle">Appréciation annuelle :</label>
+                                <select id="appreciationAnnuelle" name="appreciationAnnuelle" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="A">A - Très satisfaisant</option>
+                                    <option value="B">B - Satisfaisant</option>
+                                    <option value="C">C - Assez satisfaisant</option>
+                                    <option value="D">D - Moyen</option>
+                                    <option value="E">E - Insuffisant</option>
+                                    <option value="F">F - Très insuffisant</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="decision">Décision :</label>
+                                <select id="decision" name="decision" class="appreciation-select">
+                                    <option value="">Choisir...</option>
+                                    <option value="Admis">Admis</option>
+                                    <option value="Admis avec mention">Admis avec mention</option>
+                                    <option value="Admis avec félicitations">Admis avec félicitations</option>
+                                    <option value="Redoublement">Redoublement</option>
+                                    <option value="Orientation">Orientation</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="classeSuivante">Classe suivante :</label>
+                                <input type="text" id="classeSuivante" name="classeSuivante" placeholder="Ex: 5ème">
+                            </div>
+                        </div>
+                        
+
+                </div>
+        </div>
+    </div>
+    
+    <!-- Modal pour modifier un enfant -->
+    <div id="modal-modifier-enfant" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Modifier l'enfant</h3>
+                <span class="close-modal-modifier">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="form-modifier-enfant">
+                    <div class="form-row-modal">
+                        <div class="form-group-modal">
+                            <label for="modifier-nom">Nom de famille :</label>
+                            <input type="text" id="modifier-nom" name="modifier-nom" required>
+                        </div>
+                        <div class="form-group-modal">
+                            <label for="modifier-prenom">Prénom :</label>
+                            <input type="text" id="modifier-prenom" name="modifier-prenom" required>
+                        </div>
+                    </div>
+                    <div class="form-row-modal">
+                        <div class="form-group-modal">
+                            <label for="modifier-classe">Classe :</label>
+                            <select id="modifier-classe" name="modifier-classe" required>
+                                <option value="">Choisir une classe...</option>
+                                <option value="CP1">CP1</option>
+                                <option value="CP2">CP2</option>
+                                <option value="CE1">CE1</option>
+                                <option value="CE2">CE2</option>
+                                <option value="CM1">CM1</option>
+                                <option value="CM2">CM2</option>
+                                <option value="6ème">6ème</option>
+                                <option value="5ème">5ème</option>
+                                <option value="4ème">4ème</option>
+                                <option value="3ème">3ème</option>
+                                <option value="2nde">2nde</option>
+                                <option value="1ère">1ère</option>
+                                <option value="Terminale">Terminale</option>
+                            </select>
+                        </div>
+                        <div class="form-group-modal">
+                            <label for="modifier-age">Âge :</label>
+                            <input type="number" id="modifier-age" name="modifier-age" min="3" max="18" required>
+                        </div>
+                    </div>
+                    <div class="form-group-modal">
+                        <label for="modifier-nationalite">Nationalité :</label>
+                        <input type="text" id="modifier-nationalite" name="modifier-nationalite" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel-modifier">Annuler</button>
+                        <button type="submit" class="btn-save-modifier">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        // Gestion de la photo
+        document.getElementById('photoInput').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    // Vérifier si le serveur est disponible
+                    const serveurDisponible = await verifierConnexionServeur();
+                    
+                    if (serveurDisponible) {
+                        // Uploader la photo sur le serveur
+                        const formData = new FormData();
+                        formData.append('photo', file);
+                        
+                        const response = await fetch(`${SERVER_URL}/upload-photo`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            // Utiliser l'URL du serveur avec timestamp pour éviter le cache
+                            const photoUrl = `${window.location.protocol}//${window.location.host}${result.data.url}?t=${Date.now()}`;
+                            document.getElementById('photoEnfant').src = photoUrl;
+                            
+                            // Sauvegarder l'URL en local (sans timestamp)
+                            const savedUrl = `${window.location.protocol}//${window.location.host}${result.data.url}`;
+                            localStorage.setItem('photoEnfant', savedUrl);
+                            
+                            afficherNotification('📷 Photo uploadée sur le serveur avec succès !', 'success');
+                        } else {
+                            throw new Error(result.message);
+                        }
+                    } else {
+                        // Fallback vers localStorage
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById('photoEnfant').src = e.target.result;
+                            localStorage.setItem('photoEnfant', e.target.result);
+                            afficherNotification('📷 Photo sauvegardée localement', 'info');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'upload de la photo:', error);
+                    
+                    // Fallback vers localStorage
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('photoEnfant').src = e.target.result;
+                        localStorage.setItem('photoEnfant', e.target.result);
+                        afficherNotification('📷 Photo sauvegardée localement (erreur serveur)', 'info');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // Configuration du serveur
+        const SERVER_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : `${window.location.protocol}//${window.location.host}/api`;
+        
+        // Fonction pour vérifier la connexion au serveur
+        async function verifierConnexionServeur() {
+            try {
+                const response = await fetch(`${SERVER_URL}/health`);
+                const data = await response.json();
+                if (data.success) {
+                    console.log('✅ Serveur connecté:', data.message);
+                    return true;
+                }
+            } catch (error) {
+                console.warn('⚠️ Serveur non disponible:', error.message);
+                return false;
+            }
+        }
+
+        // Sauvegarder toutes les données sur le serveur
+        async function sauvegarderDonnees() {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            
+            if (!nom || !prenom) {
+                afficherNotification('ℹ️ Aucun enfant sélectionné. Les données seront sauvegardées pour un nouvel enfant.', 'success');
+                // Continuer avec la sauvegarde même sans enfant sélectionné
+            }
+
+            // Récupérer toutes les données du formulaire
+            const donnees = {
+                // Informations d'identité
+                nom: nom,
+                prenom: prenom,
+                age: document.getElementById('age').value,
+                classe: document.getElementById('classe').value,
+                nationalite: document.getElementById('nationalite').value,
+                ethnie: document.getElementById('ethnie').value,
+                orphelinPere: document.getElementById('orphelinPere').checked,
+                orphelinMere: document.getElementById('orphelinMere').checked,
+                disparuPere: document.getElementById('disparuPere').checked,
+                disparuMere: document.getElementById('disparuMere').checked,
+                nbFreres: document.getElementById('nbFreres').value,
+                nbSoeurs: document.getElementById('nbSoeurs').value,
+                nomPere: document.getElementById('nomPere').value,
+                nomMere: document.getElementById('nomMere').value,
+                membreFamille: document.getElementById('membreFamille').value,
+                contactMembre: document.getElementById('contactMembre').value,
+                signeParticulier: document.getElementById('signeParticulier').value,
+                
+                // Résultats 1er trimestre
+                moyenne1: document.getElementById('moyenne1').value,
+                rang1: document.getElementById('rang1').value,
+                effectif1: document.getElementById('effectif1').value,
+                forteMoyenne1: document.getElementById('forteMoyenne1').value,
+                faibleMoyenne1: document.getElementById('faibleMoyenne1').value,
+                appreciation1: document.getElementById('appreciation1').value,
+                
+                // Résultats 2ème trimestre
+                moyenne2: document.getElementById('moyenne2').value,
+                rang2: document.getElementById('rang2').value,
+                effectif2: document.getElementById('effectif2').value,
+                forteMoyenne2: document.getElementById('forteMoyenne2').value,
+                faibleMoyenne2: document.getElementById('faibleMoyenne2').value,
+                appreciation2: document.getElementById('appreciation2').value,
+                
+                // Résultats 3ème trimestre
+                moyenne3: document.getElementById('moyenne3').value,
+                rang3: document.getElementById('rang3').value,
+                effectif3: document.getElementById('effectif3').value,
+                forteMoyenne3: document.getElementById('forteMoyenne3').value,
+                faibleMoyenne3: document.getElementById('faibleMoyenne3').value,
+                appreciation3: document.getElementById('appreciation3').value,
+                
+                // Résultat annuel
+                moyenneAnnuelle: document.getElementById('moyenneAnnuelle').value,
+                rangAnnuel: document.getElementById('rangAnnuel').value,
+                effectifAnnuel: document.getElementById('effectifAnnuel').value,
+                appreciationAnnuelle: document.getElementById('appreciationAnnuelle').value,
+                decision: document.getElementById('decision').value,
+                classeSuivante: document.getElementById('classeSuivante').value,
+                
+                // Photo
+                photoEnfant: document.getElementById('photoEnfant').src,
+                
+                // Date de sauvegarde
+                dateSauvegarde: new Date().toLocaleString('fr-FR')
+            };
+
+            try {
+                // Vérifier si le serveur est disponible
+                const serveurDisponible = await verifierConnexionServeur();
+                
+                if (serveurDisponible) {
+                    // Sauvegarder sur le serveur
+                    const response = await fetch(`${SERVER_URL}/enfants`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(donnees)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Sauvegarder aussi en local pour la synchronisation
+                        let enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const enfantIndex = enfants.findIndex(e => e.nom === nom && e.prenom === prenom);
+                        
+                        if (enfantIndex !== -1) {
+                            enfants[enfantIndex] = {
+                                ...enfants[enfantIndex],
+                                ...donnees,
+                                dateDerniereSauvegarde: new Date().toLocaleString('fr-FR')
+                            };
+                        } else {
+                            const nouvelEnfant = {
+                                id: Date.now().toString(),
+                                ...donnees,
+                                dateAjout: new Date().toLocaleString('fr-FR')
+                            };
+                            enfants.push(nouvelEnfant);
+                        }
+                        
+                        localStorage.setItem('enfants', JSON.stringify(enfants));
+                        genererListeEnfants();
+                        
+                        afficherNotification(`✅ ${result.message} (Serveur)`, 'success');
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } else {
+                    // Fallback vers localStorage si le serveur n'est pas disponible
+                    afficherNotification('⚠️ Serveur non disponible, sauvegarde locale uniquement', 'info');
+                    sauvegarderDonneesLocale(donnees);
+                }
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde:', error);
+                afficherNotification(`❌ Erreur de sauvegarde: ${error.message}`, 'error');
+                
+                // Fallback vers localStorage
+                sauvegarderDonneesLocale(donnees);
+            }
+        }
+
+        // Fonction de fallback pour sauvegarder en local
+        function sauvegarderDonneesLocale(donnees) {
+            const nom = donnees.nom;
+            const prenom = donnees.prenom;
+            
+            let enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+            const enfantIndex = enfants.findIndex(e => e.nom === nom && e.prenom === prenom);
+            
+            if (enfantIndex !== -1) {
+                enfants[enfantIndex] = {
+                    ...enfants[enfantIndex],
+                    ...donnees,
+                    dateDerniereSauvegarde: new Date().toLocaleString('fr-FR')
+                };
+                
+                localStorage.setItem('enfants', JSON.stringify(enfants));
+                afficherNotification(`✅ Données de ${prenom} ${nom} sauvegardées localement !`, 'success');
+            } else {
+                const nouvelEnfant = {
+                    id: Date.now().toString(),
+                    ...donnees,
+                    dateAjout: new Date().toLocaleString('fr-FR')
+                };
+                
+                enfants.push(nouvelEnfant);
+                localStorage.setItem('enfants', JSON.stringify(enfants));
+                genererListeEnfants();
+                
+                afficherNotification(`✅ Nouvel enfant ${prenom} ${nom} ajouté localement !`, 'success');
+            }
+        }
+
+        // Fonction de sauvegarde silencieuse (sans notification)
+        async function sauvegarderDonneesSilencieusement() {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            
+            if (!nom || !prenom) {
+                return; // Ne rien faire si pas d'enfant sélectionné
+            }
+
+            // Récupérer toutes les données du formulaire
+            const donnees = {
+                // Informations d'identité
+                nom: nom,
+                prenom: prenom,
+                age: document.getElementById('age').value,
+                classe: document.getElementById('classe').value,
+                nationalite: document.getElementById('nationalite').value,
+                ethnie: document.getElementById('ethnie').value,
+                orphelinPere: document.getElementById('orphelinPere').checked,
+                orphelinMere: document.getElementById('orphelinMere').checked,
+                disparuPere: document.getElementById('disparuPere').checked,
+                disparuMere: document.getElementById('disparuMere').checked,
+                nbFreres: document.getElementById('nbFreres').value,
+                nbSoeurs: document.getElementById('nbSoeurs').value,
+                nomPere: document.getElementById('nomPere').value,
+                nomMere: document.getElementById('nomMere').value,
+                membreFamille: document.getElementById('membreFamille').value,
+                contactMembre: document.getElementById('contactMembre').value,
+                signeParticulier: document.getElementById('signeParticulier').value,
+                
+                // Résultats 1er trimestre
+                moyenne1: document.getElementById('moyenne1').value,
+                rang1: document.getElementById('rang1').value,
+                effectif1: document.getElementById('effectif1').value,
+                forteMoyenne1: document.getElementById('forteMoyenne1').value,
+                faibleMoyenne1: document.getElementById('faibleMoyenne1').value,
+                appreciation1: document.getElementById('appreciation1').value,
+                
+                // Résultats 2ème trimestre
+                moyenne2: document.getElementById('moyenne2').value,
+                rang2: document.getElementById('rang2').value,
+                effectif2: document.getElementById('effectif2').value,
+                forteMoyenne2: document.getElementById('forteMoyenne2').value,
+                faibleMoyenne2: document.getElementById('faibleMoyenne2').value,
+                appreciation2: document.getElementById('appreciation2').value,
+                
+                // Résultats 3ème trimestre
+                moyenne3: document.getElementById('moyenne3').value,
+                rang3: document.getElementById('rang3').value,
+                effectif3: document.getElementById('effectif3').value,
+                forteMoyenne3: document.getElementById('forteMoyenne3').value,
+                faibleMoyenne3: document.getElementById('faibleMoyenne3').value,
+                appreciation3: document.getElementById('appreciation3').value,
+                
+                // Résultat annuel
+                moyenneAnnuelle: document.getElementById('moyenneAnnuelle').value,
+                rangAnnuel: document.getElementById('rangAnnuel').value,
+                effectifAnnuel: document.getElementById('effectifAnnuel').value,
+                appreciationAnnuelle: document.getElementById('appreciationAnnuelle').value,
+                decision: document.getElementById('decision').value,
+                classeSuivante: document.getElementById('classeSuivante').value,
+                
+                // Photo
+                photoEnfant: document.getElementById('photoEnfant').src,
+                
+                // Date de sauvegarde
+                dateSauvegarde: new Date().toLocaleString('fr-FR')
+            };
+
+            try {
+                // Vérifier si le serveur est disponible
+                const serveurDisponible = await verifierConnexionServeur();
+                
+                if (serveurDisponible) {
+                    // Sauvegarder sur le serveur silencieusement
+                    const response = await fetch(`${SERVER_URL}/enfants`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(donnees)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Sauvegarder aussi en local pour la synchronisation
+                        let enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const enfantIndex = enfants.findIndex(e => e.nom === nom && e.prenom === prenom);
+                        
+                        if (enfantIndex !== -1) {
+                            enfants[enfantIndex] = {
+                                ...enfants[enfantIndex],
+                                ...donnees,
+                                dateDerniereSauvegarde: new Date().toLocaleString('fr-FR')
+                            };
+                        } else {
+                            const nouvelEnfant = {
+                                id: Date.now().toString(),
+                                ...donnees,
+                                dateAjout: new Date().toLocaleString('fr-FR')
+                            };
+                            enfants.push(nouvelEnfant);
+                        }
+                        
+                        localStorage.setItem('enfants', JSON.stringify(enfants));
+                        genererListeEnfants();
+                    }
+                } else {
+                    // Fallback vers localStorage si le serveur n'est pas disponible
+                    sauvegarderDonneesLocale(donnees);
+                }
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde silencieuse:', error);
+                // Fallback vers localStorage
+                sauvegarderDonneesLocale(donnees);
+            }
+        }
+
+        // Fonction pour synchroniser les données avec le serveur
+        async function synchroniserAvecServeur() {
+            try {
+                const serveurDisponible = await verifierConnexionServeur();
+                
+                if (serveurDisponible) {
+                    // Récupérer tous les enfants du serveur
+                    const response = await fetch(`${SERVER_URL}/enfants`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Nettoyer et synchroniser les photos
+                        const enfantsNettoyes = result.data.map(enfant => {
+                            if (enfant.photoEnfant) {
+                                // S'assurer que l'URL de la photo est cohérente
+                                if (enfant.photoEnfant.startsWith('/uploads/')) {
+                                    enfant.photoEnfant = `${window.location.protocol}//${window.location.host}${enfant.photoEnfant}`;
+                                }
+                            }
+                            return enfant;
+                        });
+                        
+                        // Mettre à jour le localStorage avec les données du serveur
+                        localStorage.setItem('enfants', JSON.stringify(enfantsNettoyes));
+                        
+                        // Appeler genererListeEnfants seulement si la fonction existe
+                        if (typeof genererListeEnfants === 'function') {
+                            genererListeEnfants();
+                        } else {
+                            console.log('⚠️ Fonction genererListeEnfants non disponible');
+                        }
+                        
+                        console.log('✅ Synchronisation avec le serveur réussie');
+                        return true;
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors de la synchronisation:', error);
+            }
+            return false;
+        }
+
+        // Fonction pour nettoyer les URLs de photos
+        function nettoyerUrlPhoto(url) {
+            if (!url) return null;
+            
+            // Supprimer les paramètres de cache
+            const cleanUrl = url.split('?')[0];
+            
+            // S'assurer que l'URL est cohérente
+            if (cleanUrl.startsWith('/uploads/')) {
+                return `${window.location.protocol}//${window.location.host}${cleanUrl}`;
+            }
+            
+            return cleanUrl;
+        }
+
+        // Fonction pour vérifier si une photo existe
+        async function verifierPhotoExiste(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Charger les données sauvegardées
+        async function chargerDonnees() {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            
+            if (!nom || !prenom) {
+                afficherNotification('ℹ️ Aucun enfant sélectionné. Veuillez d\'abord sélectionner un enfant pour charger ses données.', 'info');
+                return;
+            }
+
+            try {
+                // Essayer de charger depuis le serveur d'abord
+                const serveurDisponible = await verifierConnexionServeur();
+                
+                if (serveurDisponible) {
+                    // Récupérer tous les enfants du serveur
+                    const response = await fetch(`${SERVER_URL}/enfants`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Chercher l'enfant dans les données du serveur
+                        const enfant = result.data.find(e => e.nom === nom && e.prenom === prenom);
+                        
+                        if (enfant) {
+                            chargerDonneesEnfant(enfant);
+                            afficherNotification(`📂 Données de ${prenom} ${nom} chargées depuis le serveur !`, 'success');
+                            return;
+                        }
+                    }
+                }
+                
+                // Fallback vers localStorage
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const enfant = enfants.find(e => e.nom === nom && e.prenom === prenom);
+                
+                if (enfant) {
+                    chargerDonneesEnfant(enfant);
+                    afficherNotification(`📂 Données de ${prenom} ${nom} chargées localement !`, 'success');
+                } else {
+                    afficherNotification('❌ Aucune donnée trouvée pour cet enfant', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement:', error);
+                
+                // Fallback vers localStorage en cas d'erreur
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const enfant = enfants.find(e => e.nom === nom && e.prenom === prenom);
+                
+                if (enfant) {
+                    chargerDonneesEnfant(enfant);
+                    afficherNotification(`📂 Données de ${prenom} ${nom} chargées localement !`, 'success');
+                } else {
+                    afficherNotification('❌ Aucune donnée trouvée pour cet enfant', 'error');
+                }
+            }
+        }
+
+        // Fonction pour afficher des notifications
+        function afficherNotification(message, type) {
+            // Supprimer les notifications existantes
+            const notificationsExistantes = document.querySelectorAll('.notification');
+            notificationsExistantes.forEach(notif => notif.remove());
+            
+            // Créer la notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            
+            // Ajouter des styles spécifiques selon le type
+            if (type === 'error') {
+                notification.style.backgroundColor = '#ff4444';
+                notification.style.color = 'white';
+                notification.style.border = '2px solid #cc0000';
+                notification.style.fontWeight = 'bold';
+                notification.style.fontSize = '14px';
+                notification.style.padding = '15px 20px';
+                notification.style.borderRadius = '8px';
+                notification.style.boxShadow = '0 4px 12px rgba(255, 68, 68, 0.3)';
+            } else if (type === 'success') {
+                notification.style.backgroundColor = '#4CAF50';
+                notification.style.color = 'white';
+                notification.style.border = '2px solid #45a049';
+                notification.style.fontWeight = 'bold';
+                notification.style.fontSize = '14px';
+                notification.style.padding = '15px 20px';
+                notification.style.borderRadius = '8px';
+                notification.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+            }
+            
+            // Ajouter au body
+            document.body.appendChild(notification);
+            
+            // Durée différente selon le type
+            const duree = type === 'error' ? 5000 : (type === 'success' ? 4000 : 3000);
+            
+            // Supprimer après la durée spécifiée
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, duree);
+        }
+
+        // Sauvegarde automatique lors de la saisie - Version améliorée
+        function sauvegardeAutomatique() {
+            const champs = document.querySelectorAll('input, select, textarea');
+            champs.forEach(champ => {
+                // Exclure les champs de connexion admin
+                if (champ.id === 'username' || champ.id === 'password' || champ.id === 'email' || champ.id === 'verification-code') {
+                    return; // Ignorer ces champs
+                }
+                
+                champ.addEventListener('input', function() {
+                    // Sauvegarder automatiquement après 5 secondes d'inactivité (au lieu de 2)
+                    clearTimeout(window.timeoutSauvegarde);
+                    window.timeoutSauvegarde = setTimeout(() => {
+                        // Sauvegarder silencieusement sans notification
+                        sauvegarderDonneesSilencieusement();
+                    }, 5000);
+                });
+            });
+        }
+
+        // Fonction pour nettoyer les données des enfants
+        function nettoyerDonneesEnfants() {
+            try {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const enfantsNettoyes = enfants.map(enfant => {
+                    // Nettoyer l'URL de la photo
+                    if (enfant.photoEnfant) {
+                        enfant.photoEnfant = nettoyerUrlPhoto(enfant.photoEnfant);
+                    }
+                    return enfant;
+                });
+                
+                localStorage.setItem('enfants', JSON.stringify(enfantsNettoyes));
+                console.log('✅ Données des enfants nettoyées');
+            } catch (error) {
+                console.error('❌ Erreur lors du nettoyage des données:', error);
+            }
+        }
+
+        // Initialiser la sauvegarde automatique
+        document.addEventListener('DOMContentLoaded', async function() {
+            sauvegardeAutomatique();
+            
+            // Nettoyer les données au démarrage
+            nettoyerDonneesEnfants();
+            
+            // Vérifier la connexion au serveur au démarrage
+            const serveurDisponible = await verifierConnexionServeur();
+            
+            if (serveurDisponible) {
+                // Synchroniser avec le serveur
+                const synchronise = await synchroniserAvecServeur();
+                if (synchronise) {
+                    afficherNotification('🔄 Synchronisation avec le serveur réussie', 'success');
+                }
+            } else {
+                console.log('⚠️ Serveur non disponible, utilisation des données locales');
+            }
+            
+            // Charger automatiquement les données au démarrage
+            const donneesSauvegardees = localStorage.getItem('donneesEnfant');
+            if (donneesSauvegardees) {
+                chargerDonnees();
+            }
+        });
+
+        // Génération de l'image JPEG
+        function genererImage() {
+            const maquette = document.querySelector('.maquette-container');
+            
+            // Masquer les boutons temporairement
+            const boutons = document.querySelectorAll('.btn-sauvegarder, .btn-charger, .btn-modifier, .btn-supprimer, .btn-generer');
+            boutons.forEach(btn => btn.style.display = 'none');
+            
+            html2canvas(maquette, {
+                scale: 2, // Qualité plus élevée
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                width: maquette.scrollWidth,
+                height: maquette.scrollHeight
+            }).then(function(canvas) {
+                // Afficher les boutons
+                boutons.forEach(btn => btn.style.display = 'block');
+                
+                // Créer le lien de téléchargement
+                const link = document.createElement('a');
+                link.download = 'maquette_enfant.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.click();
+                
+                afficherNotification('🖼️ Image générée avec succès !', 'success');
+            }).catch(function(error) {
+                console.error('Erreur lors de la génération:', error);
+                boutons.forEach(btn => btn.style.display = 'block');
+                afficherNotification('❌ Erreur lors de la génération de l\'image', 'error');
+            });
+        }
+
+                    // Gestion du menu déroulant des enfants
+            document.addEventListener('DOMContentLoaded', function() {
+                const enfantLinks = document.querySelectorAll('.dropdown-section ul li a');
+                
+                enfantLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const enfantId = this.getAttribute('data-enfant');
+                        const enfantNom = this.textContent;
+                        
+                        // Remplir automatiquement le nom et prénom
+                        const nomInput = document.getElementById('nom');
+                        const prenomInput = document.getElementById('prenom');
+                        
+                        if (nomInput && prenomInput) {
+                            const nomComplet = enfantNom.split(' ');
+                            if (nomComplet.length >= 2) {
+                                nomInput.value = nomComplet[0]; // Nom de famille
+                                prenomInput.value = nomComplet[1]; // Prénom
+                            }
+                        }
+                        
+                        // Activer tous les champs du formulaire pour permettre la saisie
+                        activerChampsFormulaire();
+                        
+                        // Charger les données existantes si disponibles
+                        chargerDonnees();
+                        
+                        // Faire défiler vers le formulaire
+                        document.querySelector('.maquette-container').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        
+                        afficherNotification(`👶 Enfant sélectionné : ${enfantNom} - Formulaire activé pour saisie`, 'success');
+                    });
+                });
+
+            // Gestion de l'authentification admin - Version simplifiée et propre
+            const adminLoginForm = document.getElementById('admin-login-form');
+            const adminMenu = document.querySelector('.admin-menu');
+            const loginSection = document.querySelector('.login-section');
+            const adminActions = document.querySelector('.admin-actions');
+
+            // Identifiants d'administration
+            const ADMIN_CREDENTIALS = {
+                username: 'MGJC_Melchi',
+                password: 'Melchi171819'
+            };
+
+            // Variables pour la vérification
+            let verificationCode = null;
+            let codeExpiration = null;
+
+            // Fonction pour simuler l'envoi d'email
+            function envoyerEmailVerification(email, code) {
+                // En production, utilisez un vrai service d'email comme SendGrid, Mailgun, etc.
+                console.log(`📧 Email envoyé à ${email} avec le code: ${code}`);
+                
+                // Note: La notification est affichée dans gererConnexionAdmin
+            }
+
+            // Fonction de gestion de la connexion admin
+            function gererConnexionAdmin(e) {
+                if (e) e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const email = document.getElementById('email').value;
+
+                if (!username || !password) {
+                    afficherNotification('❌ Veuillez remplir tous les champs !', 'error');
+                    return;
+                }
+
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    // Générer un code de vérification à 4 chiffres
+                    verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+                    codeExpiration = new Date().getTime() + (10 * 60 * 1000);
+                    
+                    // Envoyer l'email de vérification
+                    envoyerEmailVerification(email, verificationCode);
+                    
+                    // Afficher la section de vérification
+                    document.querySelector('.login-section').style.display = 'none';
+                    document.querySelector('.verification-section').style.display = 'block';
+                    
+                    // Réinitialiser la vérification
+                    initialiserVerification();
+                    
+                    // Afficher le code dans la notification
+                    afficherNotification(`📧 Code de vérification: ${verificationCode}`, 'success');
+                } else {
+                    afficherNotification('❌ Identifiants incorrects !', 'error');
+                }
+            }
+
+            // Configuration des événements de connexion admin
+            if (adminLoginForm) {
+                adminLoginForm.addEventListener('submit', gererConnexionAdmin);
+                
+                // Gestion de la touche Entrée
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+                
+                if (usernameInput) {
+                    usernameInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            gererConnexionAdmin();
+                        }
+                    });
+                }
+                
+                if (passwordInput) {
+                    passwordInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            gererConnexionAdmin();
+                        }
+                    });
+                }
+            }
+
+            // Gestion des actions administratives
+            const adminActionLinks = document.querySelectorAll('.admin-action');
+            
+            adminActionLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const action = this.getAttribute('data-action');
+                    
+                    switch(action) {
+                        case 'add-enfant':
+                            afficherNotification('➕ Fonctionnalité : Ajouter un enfant', 'success');
+                            break;
+                        case 'edit-enfant':
+                            afficherNotification('✏️ Fonctionnalité : Modifier un enfant', 'success');
+                            break;
+                        case 'delete-enfant':
+                            supprimerEnfant();
+                            break;
+                        case 'export-data':
+                            exporterDonnees();
+                            break;
+                        case 'backup':
+                            creerSauvegarde();
+                            break;
+                        case 'logout':
+                            // Déconnexion
+                            document.querySelector('.admin-menu').classList.remove('connected');
+                            document.querySelector('.admin-dropdown').classList.remove('connected');
+                            document.querySelector('.login-section').style.display = 'block';
+                            document.querySelector('.admin-actions').style.display = 'none';
+                            
+                            // Supprimer les états
+                            sessionStorage.removeItem('adminConnected');
+                            sessionStorage.removeItem('adminVerified');
+                            
+                            // Masquer les boutons
+                            masquerBoutonsAdmin();
+                            
+                            afficherNotification('🚪 Déconnexion réussie !', 'success');
+                            break;
+                    }
+                });
+            });
+
+            // Fonction pour supprimer un enfant
+            async function supprimerEnfant() {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                
+                if (!nom || !prenom) {
+                    afficherNotification('❌ Veuillez d\'abord sélectionner un enfant à supprimer', 'error');
+                    return;
+                }
+
+                if (!confirm(`Êtes-vous sûr de vouloir supprimer ${prenom} ${nom} ?`)) {
+                    return;
+                }
+
+                try {
+                    const serveurDisponible = await verifierConnexionServeur();
+                    
+                    if (serveurDisponible) {
+                        // Chercher l'enfant dans les données locales pour obtenir l'ID
+                        const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const enfant = enfants.find(e => e.nom === nom && e.prenom === prenom);
+                        
+                        if (enfant && enfant.id) {
+                            const response = await fetch(`${SERVER_URL}/enfants/${enfant.id}`, {
+                                method: 'DELETE'
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                                // Supprimer aussi du localStorage
+                                const enfantsLocaux = JSON.parse(localStorage.getItem('enfants') || '[]');
+                                const index = enfantsLocaux.findIndex(e => e.id === enfant.id);
+                                if (index !== -1) {
+                                    enfantsLocaux.splice(index, 1);
+                                    localStorage.setItem('enfants', JSON.stringify(enfantsLocaux));
+                                    genererListeEnfants();
+                                }
+                                
+                                // Vider le formulaire
+                                viderFormulairePrincipal();
+                                
+                                afficherNotification(`✅ ${result.message}`, 'success');
+                            } else {
+                                throw new Error(result.message);
+                            }
+                        } else {
+                            throw new Error('Enfant non trouvé');
+                        }
+                    } else {
+                        afficherNotification('⚠️ Serveur non disponible, suppression locale uniquement', 'info');
+                        // Suppression locale uniquement
+                        const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const index = enfants.findIndex(e => e.nom === nom && e.prenom === prenom);
+                        
+                        if (index !== -1) {
+                            enfants.splice(index, 1);
+                            localStorage.setItem('enfants', JSON.stringify(enfants));
+                            genererListeEnfants();
+                            viderFormulairePrincipal();
+                            afficherNotification(`✅ Enfant ${prenom} ${nom} supprimé localement !`, 'success');
+                        } else {
+                            afficherNotification('❌ Enfant non trouvé', 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la suppression:', error);
+                    afficherNotification(`❌ Erreur lors de la suppression: ${error.message}`, 'error');
+                }
+            }
+
+            // Fonction pour supprimer un enfant directement (avec confirmation simplifiée)
+            window.supprimerEnfantDirect = async function() {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                
+                if (!nom || !prenom) {
+                    afficherNotification('❌ Veuillez d\'abord sélectionner un enfant à supprimer', 'error');
+                    return;
+                }
+
+                // Message de confirmation simplifié
+                const messageConfirmation = `⚠️ Confirmation de suppression
+
+Êtes-vous sûr de vouloir supprimer l'enfant :
+
+📝 Nom : ${nom}
+👶 Prénom : ${prenom}
+
+Cette action est irréversible.`;
+
+                // Créer une modal de confirmation simplifiée
+                const modalConfirmation = document.createElement('div');
+                modalConfirmation.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                `;
+
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 25px;
+                    border-radius: 12px;
+                    max-width: 400px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                `;
+
+                modalContent.innerHTML = `
+                    <h3 style="color: #e74c3c; margin-bottom: 15px;">🗑️ Supprimer l'enfant</h3>
+                    <p style="margin-bottom: 20px; line-height: 1.5;">${messageConfirmation}</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <button id="btn-confirm-suppression" style="
+                            background: #e74c3c;
+                            color: white;
+                            border: none;
+                            padding: 12px 24px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">Oui, supprimer</button>
+                        <button id="btn-cancel-suppression" style="
+                            background: #95a5a6;
+                            color: white;
+                            border: none;
+                            padding: 12px 24px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                        ">Annuler</button>
+                    </div>
+                `;
+
+                modalConfirmation.appendChild(modalContent);
+                document.body.appendChild(modalConfirmation);
+
+                const btnConfirm = document.getElementById('btn-confirm-suppression');
+                const btnCancel = document.getElementById('btn-cancel-suppression');
+
+                // Gérer la confirmation
+                btnConfirm.addEventListener('click', async function() {
+                    document.body.removeChild(modalConfirmation);
+                    await supprimerEnfant();
+                });
+
+                // Gérer l'annulation
+                btnCancel.addEventListener('click', function() {
+                    document.body.removeChild(modalConfirmation);
+                    afficherNotification('❌ Suppression annulée', 'info');
+                });
+
+                // Fermer en cliquant à l'extérieur
+                modalConfirmation.addEventListener('click', function(e) {
+                    if (e.target === modalConfirmation) {
+                        document.body.removeChild(modalConfirmation);
+                        afficherNotification('❌ Suppression annulée', 'info');
+                    }
+                });
+
+                // Focus sur le bouton de confirmation
+                btnConfirm.focus();
+            }
+
+            // Fonction pour exporter les données
+            async function exporterDonnees() {
+                try {
+                    const serveurDisponible = await verifierConnexionServeur();
+                    
+                    if (serveurDisponible) {
+                        // Exporter depuis le serveur
+                        const response = await fetch(`${SERVER_URL}/export`);
+                        const data = await response.json();
+                        
+                        // Créer un fichier de téléchargement
+                        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `enfants_${new Date().toISOString().split('T')[0]}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        afficherNotification('📊 Export des données réussi !', 'success');
+                    } else {
+                        // Exporter depuis localStorage
+                        const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const data = {
+                            exportDate: new Date().toISOString(),
+                            totalEnfants: enfants.length,
+                            enfants: enfants
+                        };
+                        
+                        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `enfants_local_${new Date().toISOString().split('T')[0]}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        afficherNotification('📊 Export local des données réussi !', 'success');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'export:', error);
+                    afficherNotification('❌ Erreur lors de l\'export des données', 'error');
+                }
+            }
+
+            // Fonction pour créer une sauvegarde
+            async function creerSauvegarde() {
+                try {
+                    const serveurDisponible = await verifierConnexionServeur();
+                    
+                    if (serveurDisponible) {
+                        const response = await fetch(`${SERVER_URL}/backup`, {
+                            method: 'POST'
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            afficherNotification(`💾 ${result.message} - ${result.data.totalEnfants} enfants sauvegardés`, 'success');
+                        } else {
+                            throw new Error(result.message);
+                        }
+                    } else {
+                        afficherNotification('⚠️ Serveur non disponible, sauvegarde locale uniquement', 'info');
+                        
+                        // Créer une sauvegarde locale
+                        const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                        const backupData = {
+                            dateBackup: new Date().toISOString(),
+                            totalEnfants: enfants.length,
+                            enfants: enfants
+                        };
+                        
+                        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `backup_local_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        afficherNotification(`💾 Sauvegarde locale créée - ${enfants.length} enfants sauvegardés`, 'success');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la sauvegarde:', error);
+                    afficherNotification(`❌ Erreur lors de la sauvegarde: ${error.message}`, 'error');
+                }
+            }
+
+            // Vérifier si l'admin est déjà connecté au chargement
+            function verifierConnexionAdminAuDemarrage() {
+                const adminConnected = sessionStorage.getItem('adminConnected') === 'true';
+                const adminVerified = sessionStorage.getItem('adminVerified') === 'true';
+                console.log('Vérification connexion admin au démarrage:', adminConnected);
+                console.log('Vérification code admin au démarrage:', adminVerified);
+                
+                if (adminConnected && adminVerified) {
+                    // Restaurer l'état de connexion
+                    if (adminMenu) adminMenu.classList.add('connected');
+                    if (document.querySelector('.admin-dropdown')) {
+                        document.querySelector('.admin-dropdown').classList.add('connected');
+                    }
+                    if (loginSection) loginSection.style.display = 'none';
+                    if (adminActions) adminActions.style.display = 'block';
+                    
+                    // Afficher les boutons admin
+                    afficherBoutonsAdmin();
+                    
+                    console.log('✅ Admin connecté et vérifié - Boutons restaurés');
+                } else {
+                    console.log('❌ Admin non connecté ou non vérifié - Boutons masqués');
+                    // S'assurer que les boutons sont masqués
+                    masquerBoutonsAdmin();
+                    
+                    // Masquer aussi les actions du menu admin
+                    const adminActionsMenu = document.querySelector('.admin-actions');
+                    if (adminActionsMenu) {
+                        adminActionsMenu.style.display = 'none';
+                    }
+                }
+            }
+
+
+
+            // Gestion du bouton Ajouter - Accès direct au formulaire principal
+            const btnAddEnfant = document.querySelector('.btn-add-enfant');
+            
+            // Action du bouton Ajouter
+            btnAddEnfant.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Vider le formulaire principal pour un nouvel enfant
+                viderFormulairePrincipal();
+                
+                // Activer tous les champs du formulaire
+                activerChampsFormulaire();
+                
+                // Faire défiler vers le formulaire principal
+                document.querySelector('.maquette-container').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+                
+                // Notification
+                afficherNotification('➕ Mode ajout activé - Remplissez le formulaire principal pour créer un nouvel enfant', 'success');
+            });
+            
+            // Fonction pour vider le formulaire principal
+            function viderFormulairePrincipal() {
+                // Vider tous les champs d'identité
+                document.getElementById('nom').value = '';
+                document.getElementById('prenom').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('classe').value = '';
+                document.getElementById('nationalite').value = '';
+                document.getElementById('ethnie').value = '';
+                document.getElementById('orphelinPere').checked = false;
+                document.getElementById('orphelinMere').checked = false;
+                document.getElementById('disparuPere').checked = false;
+                document.getElementById('disparuMere').checked = false;
+                document.getElementById('nbFreres').value = '';
+                document.getElementById('nbSoeurs').value = '';
+                document.getElementById('nomPere').value = '';
+                document.getElementById('nomMere').value = '';
+                document.getElementById('membreFamille').value = '';
+                document.getElementById('contactMembre').value = '';
+                document.getElementById('signeParticulier').value = '';
+                
+                // Vider tous les résultats
+                document.getElementById('moyenne1').value = '';
+                document.getElementById('rang1').value = '';
+                document.getElementById('effectif1').value = '';
+                document.getElementById('forteMoyenne1').value = '';
+                document.getElementById('faibleMoyenne1').value = '';
+                document.getElementById('appreciation1').value = '';
+                
+                document.getElementById('moyenne2').value = '';
+                document.getElementById('rang2').value = '';
+                document.getElementById('effectif2').value = '';
+                document.getElementById('forteMoyenne2').value = '';
+                document.getElementById('faibleMoyenne2').value = '';
+                document.getElementById('appreciation2').value = '';
+                
+                document.getElementById('moyenne3').value = '';
+                document.getElementById('rang3').value = '';
+                document.getElementById('effectif3').value = '';
+                document.getElementById('forteMoyenne3').value = '';
+                document.getElementById('faibleMoyenne3').value = '';
+                document.getElementById('appreciation3').value = '';
+                
+                document.getElementById('moyenneAnnuelle').value = '';
+                document.getElementById('rangAnnuel').value = '';
+                document.getElementById('effectifAnnuel').value = '';
+                document.getElementById('appreciationAnnuelle').value = '';
+                document.getElementById('decision').value = '';
+                document.getElementById('classeSuivante').value = '';
+                
+                // Remettre la photo par défaut
+                document.getElementById('photoEnfant').src = 'https://via.placeholder.com/35x45.png?text=Photo';
+            }
+
+            // Fonction pour générer la liste complète des enfants
+            function genererListeEnfants() {
+                const dropdownMenu = document.getElementById('dropdown-menu-enfants');
+                const mobileDropdownMenu = document.getElementById('mobile-dropdown-menu-enfants');
+                
+                // Fonction pour créer un élément de liste d'enfant
+                function creerElementEnfant(enfant) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.setAttribute('data-enfant', enfant.id);
+                    a.textContent = `${enfant.nom} ${enfant.prenom}`;
+                    
+                    // Ajouter l'événement de clic
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Charger toutes les données de l'enfant
+                        chargerDonneesEnfant(enfant);
+                        
+                        // Vérifier si l'admin est connecté avant d'activer les champs
+                        const adminConnected = sessionStorage.getItem('adminConnected') === 'true';
+                        const adminVerified = sessionStorage.getItem('adminVerified') === 'true';
+                        
+                        if (adminConnected && adminVerified) {
+                            // Activer tous les champs du formulaire pour permettre la saisie
+                            activerChampsFormulaire();
+                            afficherNotification(`👶 Enfant sélectionné : ${enfant.prenom} ${enfant.nom} - Formulaire activé pour saisie`, 'success');
+                        } else {
+                            // Garder les champs désactivés si l'admin n'est pas connecté
+                            desactiverChampsFormulaire();
+                            afficherNotification(`👶 Enfant sélectionné : ${enfant.prenom} ${enfant.nom} - Connectez-vous en tant qu'admin pour modifier`, 'info');
+                        }
+                        
+                        // Faire défiler vers le formulaire
+                        document.querySelector('.maquette-container').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    });
+                    
+                    li.appendChild(a);
+                    return li;
+                }
+                
+                // Fonction pour générer le contenu d'un menu
+                function genererContenuMenu(menuElement) {
+                    // Vider le menu
+                    menuElement.innerHTML = '';
+                    
+                    // Récupérer tous les enfants enregistrés
+                    const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                    
+                    if (enfants.length === 0) {
+                        // Afficher l'état vide
+                        menuElement.innerHTML = `
+                            <div class="dropdown-section empty-state">
+                                <h4>Aucun enfant enregistré</h4>
+                                <p>Utilisez le bouton "Ajouter" pour créer un nouvel enfant</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Grouper les enfants par classe
+                    const enfantsParClasse = {};
+                    enfants.forEach(enfant => {
+                        if (!enfantsParClasse[enfant.classe]) {
+                            enfantsParClasse[enfant.classe] = [];
+                        }
+                        enfantsParClasse[enfant.classe].push(enfant);
+                    });
+                    
+                    // Trier les classes dans l'ordre logique
+                    const ordreClasses = [
+                        'CP1', 'CP2', 'CE1', 'CE2', 'CM1', 'CM2',
+                        '6ème', '5ème', '4ème', '3ème', '2nde', '1ère', 'Terminale'
+                    ];
+                    
+                    ordreClasses.forEach(classe => {
+                        if (enfantsParClasse[classe] && enfantsParClasse[classe].length > 0) {
+                            const section = document.createElement('div');
+                            section.className = 'dropdown-section';
+                            section.setAttribute('data-classe', classe);
+                            
+                            const titre = document.createElement('h4');
+                            titre.textContent = `📚 ${classe}`;
+                            section.appendChild(titre);
+                            
+                            const ul = document.createElement('ul');
+                            
+                            // Trier les enfants par nom
+                            enfantsParClasse[classe].sort((a, b) => a.nom.localeCompare(b.nom));
+                            
+                            enfantsParClasse[classe].forEach(enfant => {
+                                const li = creerElementEnfant(enfant);
+                                ul.appendChild(li);
+                            });
+                            
+                            section.appendChild(ul);
+                            menuElement.appendChild(section);
+                        }
+                    });
+                }
+                
+                // Générer le contenu pour les deux menus
+                genererContenuMenu(dropdownMenu);
+                genererContenuMenu(mobileDropdownMenu);
+            }
+
+            // Générer la liste des enfants au démarrage
+            genererListeEnfants();
+
+            // Variables globales pour la modification
+            let enfantSelectionne = null;
+            let enfantSelectionneId = null;
+
+            // Fonction pour modifier un enfant
+            window.modifierEnfant = function() {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                
+                if (!nom || !prenom) {
+                    afficherNotification('❌ Veuillez d\'abord sélectionner un enfant à modifier', 'error');
+                    return;
+                }
+
+                // Chercher l'enfant dans la liste
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                enfantSelectionne = enfants.find(e => e.nom === nom && e.prenom === prenom);
+                
+                if (!enfantSelectionne) {
+                    afficherNotification('❌ Enfant non trouvé dans la base de données', 'error');
+                    return;
+                }
+
+                enfantSelectionneId = enfantSelectionne.id;
+
+                // Remplir la modal avec les données actuelles
+                document.getElementById('modifier-nom').value = enfantSelectionne.nom;
+                document.getElementById('modifier-prenom').value = enfantSelectionne.prenom;
+                document.getElementById('modifier-classe').value = enfantSelectionne.classe;
+                document.getElementById('modifier-age').value = enfantSelectionne.age;
+                document.getElementById('modifier-nationalite').value = enfantSelectionne.nationalite;
+
+                // Afficher la modal
+                const modalModifier = document.getElementById('modal-modifier-enfant');
+                modalModifier.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            };
+
+            // Gestion de la modal de modification
+            const modalModifier = document.getElementById('modal-modifier-enfant');
+            const closeModalModifier = document.querySelector('.close-modal-modifier');
+            const btnCancelModifier = document.querySelector('.btn-cancel-modifier');
+            const formModifierEnfant = document.getElementById('form-modifier-enfant');
+
+            // Fermer la modal de modification
+            function closeModalModifierFunction() {
+                modalModifier.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                formModifierEnfant.reset();
+                enfantSelectionne = null;
+                enfantSelectionneId = null;
+            }
+
+            closeModalModifier.addEventListener('click', closeModalModifierFunction);
+            btnCancelModifier.addEventListener('click', closeModalModifierFunction);
+
+            // Fermer la modal en cliquant à l'extérieur
+            window.addEventListener('click', function(e) {
+                if (e.target === modalModifier) {
+                    closeModalModifierFunction();
+                }
+            });
+
+            // Gestion du formulaire de modification
+            formModifierEnfant.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!enfantSelectionneId) {
+                    afficherNotification('❌ Aucun enfant sélectionné', 'error');
+                    return;
+                }
+
+                const nouveauNom = document.getElementById('modifier-nom').value;
+                const nouveauPrenom = document.getElementById('modifier-prenom').value;
+                const nouvelleClasse = document.getElementById('modifier-classe').value;
+                const nouvelAge = document.getElementById('modifier-age').value;
+                const nouvelleNationalite = document.getElementById('modifier-nationalite').value;
+
+                // Mettre à jour l'enfant dans localStorage
+                let enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const index = enfants.findIndex(e => e.id === enfantSelectionneId);
+                
+                if (index !== -1) {
+                    enfants[index] = {
+                        ...enfants[index],
+                        nom: nouveauNom,
+                        prenom: nouveauPrenom,
+                        classe: nouvelleClasse,
+                        age: nouvelAge,
+                        nationalite: nouvelleNationalite,
+                        dateModification: new Date().toLocaleString('fr-FR')
+                    };
+                    
+                    localStorage.setItem('enfants', JSON.stringify(enfants));
+
+                    // Régénérer la liste complète des enfants
+                    genererListeEnfants();
+
+                    // Mettre à jour le formulaire principal
+                    document.getElementById('nom').value = nouveauNom;
+                    document.getElementById('prenom').value = nouveauPrenom;
+                    document.getElementById('classe').value = nouvelleClasse;
+                    document.getElementById('age').value = nouvelAge;
+                    document.getElementById('nationalite').value = nouvelleNationalite;
+
+                    // Fermer la modal
+                    closeModalModifierFunction();
+
+                    // Notification de succès
+                    afficherNotification(`✅ Enfant modifié avec succès : ${nouveauPrenom} ${nouveauNom}`, 'success');
+                } else {
+                    afficherNotification('❌ Erreur lors de la modification', 'error');
+                }
+            });
+
+            // Fonction pour charger toutes les données d'un enfant
+            async function chargerDonneesEnfant(enfant) {
+                // Remplir les champs d'identité
+                document.getElementById('nom').value = enfant.nom || '';
+                document.getElementById('prenom').value = enfant.prenom || '';
+                document.getElementById('age').value = enfant.age || '';
+                document.getElementById('classe').value = enfant.classe || '';
+                document.getElementById('nationalite').value = enfant.nationalite || '';
+                document.getElementById('ethnie').value = enfant.ethnie || '';
+                document.getElementById('orphelinPere').checked = enfant.orphelinPere || false;
+                document.getElementById('orphelinMere').checked = enfant.orphelinMere || false;
+                document.getElementById('disparuPere').checked = enfant.disparuPere || false;
+                document.getElementById('disparuMere').checked = enfant.disparuMere || false;
+                document.getElementById('nbFreres').value = enfant.nbFreres || '';
+                document.getElementById('nbSoeurs').value = enfant.nbSoeurs || '';
+                document.getElementById('nomPere').value = enfant.nomPere || '';
+                document.getElementById('nomMere').value = enfant.nomMere || '';
+                document.getElementById('membreFamille').value = enfant.membreFamille || '';
+                document.getElementById('contactMembre').value = enfant.contactMembre || '';
+                document.getElementById('signeParticulier').value = enfant.signeParticulier || '';
+                
+                // Remplir les résultats 1er trimestre
+                document.getElementById('moyenne1').value = enfant.moyenne1 || '';
+                document.getElementById('rang1').value = enfant.rang1 || '';
+                document.getElementById('effectif1').value = enfant.effectif1 || '';
+                document.getElementById('forteMoyenne1').value = enfant.forteMoyenne1 || '';
+                document.getElementById('faibleMoyenne1').value = enfant.faibleMoyenne1 || '';
+                document.getElementById('appreciation1').value = enfant.appreciation1 || '';
+                
+                // Remplir les résultats 2ème trimestre
+                document.getElementById('moyenne2').value = enfant.moyenne2 || '';
+                document.getElementById('rang2').value = enfant.rang2 || '';
+                document.getElementById('effectif2').value = enfant.effectif2 || '';
+                document.getElementById('forteMoyenne2').value = enfant.forteMoyenne2 || '';
+                document.getElementById('faibleMoyenne2').value = enfant.faibleMoyenne2 || '';
+                document.getElementById('appreciation2').value = enfant.appreciation2 || '';
+                
+                // Remplir les résultats 3ème trimestre
+                document.getElementById('moyenne3').value = enfant.moyenne3 || '';
+                document.getElementById('rang3').value = enfant.rang3 || '';
+                document.getElementById('effectif3').value = enfant.effectif3 || '';
+                document.getElementById('forteMoyenne3').value = enfant.forteMoyenne3 || '';
+                document.getElementById('faibleMoyenne3').value = enfant.faibleMoyenne3 || '';
+                document.getElementById('appreciation3').value = enfant.appreciation3 || '';
+                
+                // Remplir le résultat annuel
+                document.getElementById('moyenneAnnuelle').value = enfant.moyenneAnnuelle || '';
+                document.getElementById('rangAnnuel').value = enfant.rangAnnuel || '';
+                document.getElementById('effectifAnnuel').value = enfant.effectifAnnuel || '';
+                document.getElementById('appreciationAnnuelle').value = enfant.appreciationAnnuelle || '';
+                document.getElementById('decision').value = enfant.decision || '';
+                document.getElementById('classeSuivante').value = enfant.classeSuivante || '';
+                
+                // Charger la photo avec gestion améliorée
+                if (enfant.photoEnfant) {
+                    const photoUrl = enfant.photoEnfant;
+                    let finalUrl = photoUrl;
+                    
+                    // Vérifier si c'est une URL complète ou relative
+                    if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+                        // URL complète - utiliser directement
+                        finalUrl = photoUrl;
+                    } else if (photoUrl.startsWith('/uploads/')) {
+                        // URL relative - construire l'URL complète
+                        finalUrl = `${window.location.protocol}//${window.location.host}${photoUrl}`;
+                    } else if (photoUrl.startsWith('data:image/')) {
+                        // Image en base64 - utiliser directement
+                        finalUrl = photoUrl;
+                    } else if (photoUrl && photoUrl !== 'https://via.placeholder.com/35x45.png?text=Photo') {
+                        // Autre format - essayer de construire l'URL
+                        finalUrl = `${window.location.protocol}//${window.location.host}/uploads/${photoUrl}`;
+                    } else {
+                        // Photo par défaut
+                        finalUrl = 'https://via.placeholder.com/35x45.png?text=Photo';
+                    }
+                    
+                    // Vérifier si la photo existe (seulement pour les URLs serveur)
+                    if (finalUrl.startsWith('http') && !finalUrl.startsWith('data:')) {
+                        const photoExiste = await verifierPhotoExiste(finalUrl);
+                        if (!photoExiste) {
+                            console.warn(`⚠️ Photo non trouvée: ${finalUrl}`);
+                            finalUrl = 'https://via.placeholder.com/35x45.png?text=Photo';
+                        }
+                    }
+                    
+                    // Afficher la photo avec timestamp pour éviter le cache
+                    const img = document.getElementById('photoEnfant');
+                    if (finalUrl.includes('uploads/')) {
+                        img.src = finalUrl + `?t=${Date.now()}`;
+                    } else {
+                        img.src = finalUrl;
+                    }
+                    
+                    console.log(`📷 Photo chargée pour ${enfant.prenom} ${enfant.nom}:`, finalUrl);
+                } else {
+                    // Photo par défaut si aucune photo
+                    document.getElementById('photoEnfant').src = 'https://via.placeholder.com/35x45.png?text=Photo';
+                    console.log(`📷 Photo par défaut pour ${enfant.prenom} ${enfant.nom}`);
+                }
+                
+                // Désactiver les champs après chargement des données (sauf si admin connecté)
+                const adminConnected = sessionStorage.getItem('adminConnected') === 'true';
+                const adminVerified = sessionStorage.getItem('adminVerified') === 'true';
+                
+                if (!adminConnected || !adminVerified) {
+                    desactiverChampsFormulaire();
+                    console.log('🔒 Champs désactivés après chargement des données');
+                } else {
+                    console.log('✅ Champs activés pour l\'administrateur connecté');
+                }
+            }
+
+
+
+            // Fonction pour activer tous les champs du formulaire
+            function activerChampsFormulaire() {
+                // Vérifier si l'admin est connecté avant d'activer les champs
+                const adminConnected = sessionStorage.getItem('adminConnected') === 'true';
+                const adminVerified = sessionStorage.getItem('adminVerified') === 'true';
+                
+                if (!adminConnected || !adminVerified) {
+                    console.log('❌ Admin non connecté - champs restent en lecture seule');
+                    return; // Ne pas activer les champs si l'admin n'est pas connecté
+                }
+                
+                const inputs = document.querySelectorAll('.form-group input, .form-group textarea, .form-group select');
+                const checkboxes = document.querySelectorAll('.checkbox-label input[type="checkbox"]');
+                
+                inputs.forEach(input => {
+                    input.removeAttribute('readonly');
+                    input.removeAttribute('disabled');
+                });
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.removeAttribute('disabled');
+                });
+                
+                // Changer le style des champs
+                inputs.forEach(input => {
+                    input.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                    input.style.color = '#333';
+                    input.style.cursor = 'text';
+                });
+                
+                console.log('✅ Champs activés pour l\'administrateur connecté');
+            }
+
+            // Fonction pour désactiver tous les champs du formulaire
+            function desactiverChampsFormulaire() {
+                const inputs = document.querySelectorAll('.form-group input, .form-group textarea, .form-group select');
+                const checkboxes = document.querySelectorAll('.checkbox-label input[type="checkbox"]');
+                
+                inputs.forEach(input => {
+                    input.setAttribute('readonly', 'readonly');
+                });
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.setAttribute('disabled', 'disabled');
+                });
+                
+                // Appliquer le style de lecture seule
+                inputs.forEach(input => {
+                    input.style.backgroundColor = '#f8f9fa';
+                    input.style.color = '#6c757d';
+                    input.style.cursor = 'not-allowed';
+                });
+                
+                console.log('🔒 Champs désactivés - mode lecture seule');
+            }
+
+            // Fonction pour ajouter un enfant au menu (si elle n'existe pas)
+            if (typeof ajouterEnfantAuMenu === 'undefined') {
+                window.ajouterEnfantAuMenu = function(enfant) {
+                    // Cette fonction sera définie plus tard si nécessaire
+                    console.log('Ajout d\'enfant au menu:', enfant);
+                };
+            }
+
+            // Modifier la fonction d'ajout d'enfant pour activer les champs
+            const originalAjouterEnfant = window.ajouterEnfantAuMenu;
+            window.ajouterEnfantAuMenu = function(enfant) {
+                if (originalAjouterEnfant) {
+                    originalAjouterEnfant(enfant);
+                }
+                
+                // Modifier l'événement de clic pour activer les champs
+                const enfantLinks = document.querySelectorAll('.dropdown-section ul li a');
+                enfantLinks.forEach(link => {
+                    link.removeEventListener('click', link.clickHandler);
+                    link.clickHandler = function(e) {
+                        e.preventDefault();
+                        chargerDonneesEnfant(enfant);
+                        desactiverChampsFormulaire(); // Désactiver après chargement
+                        afficherNotification(`👶 Enfant sélectionné : ${enfant.prenom} ${enfant.nom}`, 'success');
+                    };
+                    link.addEventListener('click', link.clickHandler);
+                });
+            };
+
+
+
+            // Modifier la fonction modifierEnfant
+            const originalModifierEnfant = window.modifierEnfant;
+            window.modifierEnfant = function() {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                
+                if (!nom || !prenom) {
+                    afficherNotification('❌ Veuillez d\'abord sélectionner un enfant à modifier', 'error');
+                    return;
+                }
+
+                // Activer les champs pour la modification
+                activerChampsFormulaire();
+                
+                // Appeler la fonction originale
+                originalModifierEnfant();
+            };
+
+            // Désactiver les champs au démarrage
+            document.addEventListener('DOMContentLoaded', function() {
+                desactiverChampsFormulaire();
+                
+                // Initialiser la fonctionnalité de recherche
+                initialiserRecherche();
+                initialiserRechercheMobile();
+                
+                // Générer la liste des enfants au démarrage
+                genererListeEnfants();
+            });
+
+            // Initialiser la recherche immédiatement si le DOM est déjà chargé
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    initialiserRecherche();
+                    initialiserRechercheMobile();
+                });
+            } else {
+                initialiserRecherche();
+                initialiserRechercheMobile();
+            }
+
+            // Fonctionnalité de recherche
+            function initialiserRecherche() {
+                const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
+                
+                console.log('🔍 Initialisation de la recherche...');
+                console.log('searchInput trouvé:', !!searchInput);
+                console.log('searchButton trouvé:', !!searchButton);
+                
+                if (!searchInput || !searchButton) {
+                    console.error('❌ Éléments de recherche non trouvés');
+                    return;
+                }
+                
+                // Recherche lors du clic sur le bouton
+                searchButton.addEventListener('click', function() {
+                    console.log('🔍 Bouton de recherche cliqué');
+                    effectuerRecherche();
+                });
+                
+                // Recherche lors de la pression de la touche Entrée
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        console.log('🔍 Touche Entrée pressée');
+                        effectuerRecherche();
+                    }
+                });
+                
+                // Vérifier que les événements sont bien attachés
+                console.log('🔍 Événements de recherche attachés');
+                console.log('searchButton onclick:', searchButton.onclick);
+                console.log('searchInput onkeypress:', searchInput.onkeypress);
+                
+                // Recherche en temps réel (optionnel)
+                searchInput.addEventListener('input', function() {
+                    console.log('🔍 Saisie dans la recherche:', this.value);
+                    // Délai pour éviter trop de recherches
+                    clearTimeout(window.searchTimeout);
+                    window.searchTimeout = setTimeout(() => {
+                        if (this.value.length >= 2) {
+                            console.log('🔍 Recherche automatique pour:', this.value);
+                            effectuerRecherche();
+                        }
+                    }, 500);
+                });
+                
+                console.log('✅ Recherche initialisée avec succès');
+            }
+
+            // Fonction pour initialiser la recherche mobile
+            function initialiserRechercheMobile() {
+                console.log('🔍 Initialisation de la recherche mobile...');
+                
+                const mobileSearchInput = document.getElementById('mobileSearchInput');
+                const mobileSearchButton = document.getElementById('mobileSearchButton');
+                
+                if (!mobileSearchInput || !mobileSearchButton) {
+                    console.error('❌ Éléments de recherche mobile non trouvés');
+                    return;
+                }
+                
+                // Recherche lors du clic sur le bouton mobile
+                mobileSearchButton.addEventListener('click', function() {
+                    console.log('🔍 Bouton de recherche mobile cliqué');
+                    effectuerRechercheMobile();
+                });
+                
+                // Recherche lors de la pression de la touche Entrée sur mobile
+                mobileSearchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        console.log('🔍 Touche Entrée pressée sur mobile');
+                        effectuerRechercheMobile();
+                    }
+                });
+                
+                // Recherche en temps réel sur mobile (optionnel)
+                mobileSearchInput.addEventListener('input', function() {
+                    console.log('🔍 Saisie dans la recherche mobile:', this.value);
+                    // Délai pour éviter trop de recherches
+                    clearTimeout(window.mobileSearchTimeout);
+                    window.mobileSearchTimeout = setTimeout(() => {
+                        if (this.value.length >= 2) {
+                            console.log('🔍 Recherche automatique mobile pour:', this.value);
+                            effectuerRechercheMobile();
+                        }
+                    }, 500);
+                });
+                
+                console.log('✅ Recherche mobile initialisée avec succès');
+            }
+
+            // Fonction pour effectuer la recherche mobile
+            async function effectuerRechercheMobile() {
+                console.log('🔍 Début de la recherche mobile...');
+                
+                const mobileSearchInput = document.getElementById('mobileSearchInput');
+                const mobileSearchButton = document.getElementById('mobileSearchButton');
+                
+                if (!mobileSearchInput || !mobileSearchButton) {
+                    console.error('❌ Éléments de recherche mobile non trouvés dans effectuerRechercheMobile');
+                    return;
+                }
+                
+                const searchTerm = mobileSearchInput.value.trim().toLowerCase();
+                console.log('🔍 Terme de recherche mobile:', searchTerm);
+                
+                if (!searchTerm) {
+                    console.log('❌ Terme de recherche mobile vide');
+                    afficherNotification('ℹ️ Veuillez saisir un nom ou prénom à rechercher', 'info');
+                    return;
+                }
+                
+                // Indicateur visuel de recherche
+                mobileSearchButton.textContent = '🔍 Recherche...';
+                mobileSearchButton.disabled = true;
+                
+                try {
+                    // Essayer de rechercher d'abord sur le serveur
+                    const serveurDisponible = await verifierConnexionServeur();
+                    let enfants = [];
+                    
+                    if (serveurDisponible) {
+                        // Récupérer les enfants du serveur
+                        const response = await fetch(`${SERVER_URL}/enfants`);
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            enfants = result.data;
+                        }
+                    }
+                    
+                    // Fallback vers localStorage si le serveur n'est pas disponible
+                    if (enfants.length === 0) {
+                        enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                    }
+                    
+                    // Rechercher l'enfant avec différents critères
+                    let enfantTrouve = null;
+                    
+                    // Recherche par nom/prénom
+                    enfantTrouve = enfants.find(enfant => {
+                        const nomComplet = `${enfant.nom} ${enfant.prenom}`.toLowerCase();
+                        const nomSeul = enfant.nom.toLowerCase();
+                        const prenomSeul = enfant.prenom.toLowerCase();
+                        
+                        return nomComplet.includes(searchTerm) || 
+                               nomSeul.includes(searchTerm) || 
+                               prenomSeul.includes(searchTerm);
+                    });
+                    
+                    // Si pas trouvé, essayer la recherche par classe
+                    if (!enfantTrouve && (searchTerm.includes('ème') || searchTerm.includes('CP') || searchTerm.includes('CE') || searchTerm.includes('CM'))) {
+                        const enfantsClasse = enfants.filter(enfant => 
+                            enfant.classe && enfant.classe.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        
+                        if (enfantsClasse.length === 1) {
+                            enfantTrouve = enfantsClasse[0];
+                        } else if (enfantsClasse.length > 1) {
+                            afficherNotification(`📚 ${enfantsClasse.length} enfants trouvés en ${searchTerm}. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Si pas trouvé, essayer la recherche par âge
+                    if (!enfantTrouve && !isNaN(searchTerm)) {
+                        const enfantsAge = enfants.filter(enfant => 
+                            enfant.age && parseInt(enfant.age) === parseInt(searchTerm)
+                        );
+                        
+                        if (enfantsAge.length === 1) {
+                            enfantTrouve = enfantsAge[0];
+                        } else if (enfantsAge.length > 1) {
+                            afficherNotification(`👶 ${enfantsAge.length} enfants trouvés de ${searchTerm} ans. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Recherche spéciale pour "orphelin"
+                    if (!enfantTrouve && searchTerm.includes('orphelin')) {
+                        const orphelins = enfants.filter(enfant => 
+                            enfant.orphelinPere || enfant.orphelinMere
+                        );
+                        
+                        if (orphelins.length === 1) {
+                            enfantTrouve = orphelins[0];
+                        } else if (orphelins.length > 1) {
+                            afficherNotification(`💔 ${orphelins.length} orphelins trouvés. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Recherche par performance scolaire
+                    if (!enfantTrouve && searchTerm.includes('moyenne')) {
+                        const match = searchTerm.match(/moyenne\s*(\d+)/);
+                        if (match) {
+                            const minMoyenne = parseInt(match[1]);
+                            const performants = enfants.filter(enfant => {
+                                const moyenneAnnuelle = parseFloat(enfant.moyenneAnnuelle);
+                                return moyenneAnnuelle && moyenneAnnuelle >= minMoyenne;
+                            });
+                            
+                            if (performants.length === 1) {
+                                enfantTrouve = performants[0];
+                            } else if (performants.length > 1) {
+                                afficherNotification(`🏆 ${performants.length} élèves avec moyenne ≥ ${minMoyenne}. Veuillez être plus spécifique.`, 'info');
+                                return;
+                            }
+                        }
+                    }
+                    
+                    if (enfantTrouve) {
+                        // Charger les données de l'enfant trouvé
+                        await chargerDonneesEnfant(enfantTrouve);
+                        
+                        // Activer les champs pour permettre la modification
+                        activerChampsFormulaire();
+                        
+                        // Faire défiler vers le formulaire
+                        document.querySelector('.maquette-container').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        
+                        // Mettre en surbrillance le champ de recherche mobile
+                        mobileSearchInput.style.backgroundColor = '#e8f5e8';
+                        mobileSearchInput.style.border = '2px solid #4CAF50';
+                        
+                        setTimeout(() => {
+                            mobileSearchInput.style.backgroundColor = '';
+                            mobileSearchInput.style.border = '';
+                        }, 3000);
+                        
+                        afficherNotification(`✅ Enfant trouvé : ${enfantTrouve.prenom} ${enfantTrouve.nom}`, 'success');
+                        
+                        // Vider le champ de recherche mobile
+                        mobileSearchInput.value = '';
+                        
+                    } else {
+                        // Recherche plus large pour des suggestions
+                        const suggestions = enfants.filter(enfant => {
+                            const nomComplet = `${enfant.nom} ${enfant.prenom}`.toLowerCase();
+                            return nomComplet.includes(searchTerm);
+                        }).slice(0, 5);
+                        
+                        if (suggestions.length > 0) {
+                            const suggestionsList = suggestions.map(e => `${e.prenom} ${e.nom}`).join(', ');
+                            afficherNotification(`❌ Aucun enfant trouvé exactement. Suggestions : ${suggestionsList}`, 'info');
+                        } else {
+                            afficherNotification(`❌ Aucun enfant trouvé pour "${searchTerm}"`, 'error');
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur lors de la recherche mobile:', error);
+                    afficherNotification('❌ Erreur lors de la recherche', 'error');
+                } finally {
+                    // Restaurer le bouton de recherche mobile
+                    mobileSearchButton.textContent = '🔍 Chercher';
+                    mobileSearchButton.disabled = false;
+                }
+            }
+
+            // Fonction pour effectuer la recherche
+            async function effectuerRecherche() {
+                console.log('🔍 Début de la recherche...');
+                
+                const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
+                
+                if (!searchInput || !searchButton) {
+                    console.error('❌ Éléments de recherche non trouvés dans effectuerRecherche');
+                    return;
+                }
+                
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                console.log('🔍 Terme de recherche:', searchTerm);
+                
+                if (!searchTerm) {
+                    console.log('❌ Terme de recherche vide');
+                    afficherNotification('ℹ️ Veuillez saisir un nom ou prénom à rechercher', 'info');
+                    return;
+                }
+                
+                // Indicateur visuel de recherche
+                searchButton.textContent = '🔍 Recherche...';
+                searchButton.disabled = true;
+                
+                if (!searchTerm) {
+                    afficherNotification('ℹ️ Veuillez saisir un nom ou prénom à rechercher', 'info');
+                    return;
+                }
+                
+                try {
+                    // Essayer de rechercher d'abord sur le serveur
+                    const serveurDisponible = await verifierConnexionServeur();
+                    let enfants = [];
+                    
+                    if (serveurDisponible) {
+                        // Récupérer les enfants du serveur
+                        const response = await fetch(`${SERVER_URL}/enfants`);
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            enfants = result.data;
+                        }
+                    }
+                    
+                    // Fallback vers localStorage si le serveur n'est pas disponible
+                    if (enfants.length === 0) {
+                        enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                    }
+                    
+                    // Rechercher l'enfant avec différents critères
+                    let enfantTrouve = null;
+                    
+                    // Recherche par nom/prénom
+                    enfantTrouve = enfants.find(enfant => {
+                        const nomComplet = `${enfant.nom} ${enfant.prenom}`.toLowerCase();
+                        const nomSeul = enfant.nom.toLowerCase();
+                        const prenomSeul = enfant.prenom.toLowerCase();
+                        
+                        return nomComplet.includes(searchTerm) || 
+                               nomSeul.includes(searchTerm) || 
+                               prenomSeul.includes(searchTerm);
+                    });
+                    
+                    // Si pas trouvé, essayer la recherche par classe
+                    if (!enfantTrouve && (searchTerm.includes('ème') || searchTerm.includes('CP') || searchTerm.includes('CE') || searchTerm.includes('CM'))) {
+                        const enfantsClasse = enfants.filter(enfant => 
+                            enfant.classe && enfant.classe.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        
+                        if (enfantsClasse.length === 1) {
+                            enfantTrouve = enfantsClasse[0];
+                        } else if (enfantsClasse.length > 1) {
+                            afficherNotification(`📚 ${enfantsClasse.length} enfants trouvés en ${searchTerm}. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Si pas trouvé, essayer la recherche par âge
+                    if (!enfantTrouve && !isNaN(searchTerm)) {
+                        const enfantsAge = enfants.filter(enfant => 
+                            enfant.age && parseInt(enfant.age) === parseInt(searchTerm)
+                        );
+                        
+                        if (enfantsAge.length === 1) {
+                            enfantTrouve = enfantsAge[0];
+                        } else if (enfantsAge.length > 1) {
+                            afficherNotification(`👶 ${enfantsAge.length} enfants trouvés de ${searchTerm} ans. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Recherche spéciale pour "orphelin"
+                    if (!enfantTrouve && searchTerm.includes('orphelin')) {
+                        const orphelins = enfants.filter(enfant => 
+                            enfant.orphelinPere || enfant.orphelinMere
+                        );
+                        
+                        if (orphelins.length === 1) {
+                            enfantTrouve = orphelins[0];
+                        } else if (orphelins.length > 1) {
+                            afficherNotification(`💔 ${orphelins.length} orphelins trouvés. Veuillez être plus spécifique.`, 'info');
+                            return;
+                        }
+                    }
+                    
+                    // Recherche par performance scolaire
+                    if (!enfantTrouve && searchTerm.includes('moyenne')) {
+                        const match = searchTerm.match(/moyenne\s*(\d+)/);
+                        if (match) {
+                            const minMoyenne = parseInt(match[1]);
+                            const performants = enfants.filter(enfant => {
+                                const moyenneAnnuelle = parseFloat(enfant.moyenneAnnuelle);
+                                return moyenneAnnuelle && moyenneAnnuelle >= minMoyenne;
+                            });
+                            
+                            if (performants.length === 1) {
+                                enfantTrouve = performants[0];
+                            } else if (performants.length > 1) {
+                                afficherNotification(`🏆 ${performants.length} élèves avec moyenne ≥ ${minMoyenne}. Veuillez être plus spécifique.`, 'info');
+                                return;
+                            }
+                        }
+                    }
+                    
+                    if (enfantTrouve) {
+                        // Charger les données de l'enfant trouvé
+                        await chargerDonneesEnfant(enfantTrouve);
+                        
+                        // Activer les champs pour permettre la modification
+                        activerChampsFormulaire();
+                        
+                        // Faire défiler vers le formulaire
+                        document.querySelector('.maquette-container').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        
+                        // Mettre en surbrillance le champ de recherche
+                        const searchInput = document.getElementById('searchInput');
+                        searchInput.style.backgroundColor = '#e8f5e8';
+                        searchInput.style.border = '2px solid #4CAF50';
+                        
+                        setTimeout(() => {
+                            searchInput.style.backgroundColor = '';
+                            searchInput.style.border = '';
+                        }, 3000);
+                        
+                        afficherNotification(`✅ Enfant trouvé : ${enfantTrouve.prenom} ${enfantTrouve.nom}`, 'success');
+                        
+                        // Vider le champ de recherche
+                        document.getElementById('searchInput').value = '';
+                        
+                    } else {
+                        // Recherche plus large pour des suggestions
+                        const suggestions = enfants.filter(enfant => {
+                            const nomComplet = `${enfant.nom} ${enfant.prenom}`.toLowerCase();
+                            return nomComplet.includes(searchTerm);
+                        }).slice(0, 5);
+                        
+                        if (suggestions.length > 0) {
+                            const suggestionsList = suggestions.map(e => `${e.prenom} ${e.nom}`).join(', ');
+                            afficherNotification(`❌ Aucun enfant trouvé exactement. Suggestions : ${suggestionsList}`, 'info');
+                        } else {
+                            afficherNotification(`❌ Aucun enfant trouvé pour "${searchTerm}"`, 'error');
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur lors de la recherche:', error);
+                    afficherNotification('❌ Erreur lors de la recherche', 'error');
+                } finally {
+                    // Restaurer le bouton de recherche
+                    searchButton.textContent = '🔍 Chercher';
+                    searchButton.disabled = false;
+                }
+            }
+
+            // Fonction pour rechercher par classe
+            function rechercherParClasse(classe) {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const enfantsClasse = enfants.filter(enfant => 
+                    enfant.classe && enfant.classe.toLowerCase().includes(classe.toLowerCase())
+                );
+                
+                if (enfantsClasse.length > 0) {
+                    afficherNotification(`📚 ${enfantsClasse.length} enfant(s) trouvé(s) en ${classe}`, 'success');
+                    return enfantsClasse;
+                } else {
+                    afficherNotification(`❌ Aucun enfant trouvé en ${classe}`, 'error');
+                    return [];
+                }
+            }
+
+            // Fonction pour rechercher par âge
+            function rechercherParAge(age) {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const enfantsAge = enfants.filter(enfant => 
+                    enfant.age && parseInt(enfant.age) === parseInt(age)
+                );
+                
+                if (enfantsAge.length > 0) {
+                    afficherNotification(`👶 ${enfantsAge.length} enfant(s) trouvé(s) de ${age} ans`, 'success');
+                    return enfantsAge;
+                } else {
+                    afficherNotification(`❌ Aucun enfant trouvé de ${age} ans`, 'error');
+                    return [];
+                }
+            }
+
+            // Fonction pour afficher les statistiques de recherche
+            function afficherStatistiquesRecherche() {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                
+                if (enfants.length === 0) {
+                    afficherNotification('ℹ️ Aucun enfant enregistré dans la base de données', 'info');
+                    return;
+                }
+                
+                // Statistiques par classe
+                const statsParClasse = {};
+                enfants.forEach(enfant => {
+                    if (enfant.classe) {
+                        statsParClasse[enfant.classe] = (statsParClasse[enfant.classe] || 0) + 1;
+                    }
+                });
+                
+                // Statistiques par âge
+                const statsParAge = {};
+                enfants.forEach(enfant => {
+                    if (enfant.age) {
+                        statsParAge[enfant.age] = (statsParAge[enfant.age] || 0) + 1;
+                    }
+                });
+                
+                let message = `📊 Statistiques : ${enfants.length} enfant(s) total\n`;
+                message += `📚 Par classe : ${Object.keys(statsParClasse).join(', ')}\n`;
+                message += `👶 Par âge : ${Object.keys(statsParAge).join(', ')} ans`;
+                
+                afficherNotification(message, 'info');
+            }
+
+            // Fonction pour rechercher des enfants orphelins
+            function rechercherOrphelins() {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const orphelins = enfants.filter(enfant => 
+                    enfant.orphelinPere || enfant.orphelinMere
+                );
+                
+                if (orphelins.length > 0) {
+                    const listeOrphelins = orphelins.map(e => `${e.prenom} ${e.nom}`).join(', ');
+                    afficherNotification(`💔 ${orphelins.length} orphelin(s) trouvé(s) : ${listeOrphelins}`, 'info');
+                    return orphelins;
+                } else {
+                    afficherNotification('✅ Aucun orphelin enregistré', 'success');
+                    return [];
+                }
+            }
+
+            // Fonction pour rechercher par performance scolaire
+            function rechercherParPerformance(minMoyenne) {
+                const enfants = JSON.parse(localStorage.getItem('enfants') || '[]');
+                const performants = enfants.filter(enfant => {
+                    const moyenneAnnuelle = parseFloat(enfant.moyenneAnnuelle);
+                    return moyenneAnnuelle && moyenneAnnuelle >= minMoyenne;
+                });
+                
+                if (performants.length > 0) {
+                    const listePerformants = performants.map(e => `${e.prenom} ${e.nom} (${e.moyenneAnnuelle})`).join(', ');
+                    afficherNotification(`🏆 ${performants.length} élève(s) avec moyenne ≥ ${minMoyenne} : ${listePerformants}`, 'success');
+                    return performants;
+                } else {
+                    afficherNotification(`❌ Aucun élève avec moyenne ≥ ${minMoyenne}`, 'error');
+                    return [];
+                }
+            }
+
+            // Fonction pour afficher l'aide de recherche
+            function afficherAideRecherche() {
+                const aide = `
+🔍 Aide de Recherche :
+
+• Recherche par nom : "ADOBOE" ou "Francisse"
+• Recherche par classe : "6ème", "CP1", etc.
+• Recherche par âge : "12" pour les 12 ans
+• Recherche orphelins : "orphelin"
+• Recherche performance : "moyenne 10" pour ≥ 10/20
+
+Astuces :
+- Utilisez les premières lettres pour une recherche rapide
+- La recherche est insensible à la casse
+- Appuyez sur Entrée pour rechercher
+- Cliquez sur le bouton 🔍 pour rechercher
+                `;
+                
+                afficherNotification(aide, 'info');
+            }
+
+
+
+            // Rendre les fonctions disponibles globalement pour les tests
+            window.rechercherParClasse = rechercherParClasse;
+            window.rechercherParAge = rechercherParAge;
+            window.rechercherOrphelins = rechercherOrphelins;
+            window.rechercherParPerformance = rechercherParPerformance;
+            window.afficherStatistiquesRecherche = afficherStatistiquesRecherche;
+            window.afficherAideRecherche = afficherAideRecherche;
+            window.genererListeEnfants = genererListeEnfants;
+            window.effectuerRecherche = effectuerRecherche;
+            window.initialiserRecherche = initialiserRecherche;
+            
+            // Test de la recherche au démarrage
+            console.log('🔍 Test de la recherche - Fonction disponible:', typeof effectuerRecherche);
+            
+            // Fonction de test pour la recherche
+            window.testerRecherche = function() {
+                console.log('=== TEST RECHERCHE ===');
+                const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
+                
+                console.log('searchInput:', searchInput);
+                console.log('searchButton:', searchButton);
+                
+                if (searchInput && searchButton) {
+                    console.log('✅ Éléments de recherche trouvés');
+                    
+                    // Tester les événements
+                    searchInput.value = 'ADOBOE';
+                    console.log('Valeur de recherche:', searchInput.value);
+                    
+                    // Simuler un clic sur le bouton
+                    searchButton.click();
+                    
+                    console.log('✅ Test de recherche effectué');
+                } else {
+                    console.error('❌ Éléments de recherche manquants');
+                }
+            };
+
+
+
+            // Gestion du formulaire de vérification - Version simplifiée
+            function initialiserVerification() {
+                const verificationForm = document.getElementById('verification-form');
+                const btnResend = document.querySelector('.btn-resend');
+                let resendTimer = null;
+                
+                console.log('=== INITIALISATION VÉRIFICATION ===');
+                console.log('verificationForm trouvé:', !!verificationForm);
+                console.log('btnResend trouvé:', !!btnResend);
+                
+                if (verificationForm) {
+                    // Supprimer les anciens événements
+                    verificationForm.removeEventListener('submit', gererVerification);
+                    
+                    // Ajouter le nouvel événement
+                    verificationForm.addEventListener('submit', gererVerification);
+                    console.log('Événement submit ajouté au formulaire de vérification');
+                }
+                
+                if (btnResend) {
+                    btnResend.addEventListener('click', function() {
+                        if (this.disabled) return;
+                        
+                        // Générer un nouveau code à 4 chiffres
+                        verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+                        codeExpiration = new Date().getTime() + (10 * 60 * 1000);
+                        
+                        // Renvoyer l'email
+                        const email = document.getElementById('email').value;
+                        envoyerEmailVerification(email, verificationCode);
+                        
+                        afficherNotification('📧 Nouveau code de vérification envoyé !', 'success');
+                    });
+                }
+            }
+            
+            // Fonction de gestion de la vérification
+            function gererVerification(e) {
+                e.preventDefault();
+                console.log('=== DÉBUT VÉRIFICATION ===');
+                
+                const codeSaisi = document.getElementById('verification-code').value;
+                console.log('Code saisi:', codeSaisi);
+                console.log('Code attendu:', verificationCode);
+                console.log('Code expiré:', new Date().getTime() >= codeExpiration);
+                
+                if (!verificationCode) {
+                    console.log('❌ Aucun code de vérification défini');
+                    afficherNotification('❌ Erreur : Aucun code de vérification défini', 'error');
+                    return;
+                }
+                
+                if (codeSaisi === verificationCode && new Date().getTime() < codeExpiration) {
+                    console.log('✅ Code correct - Connexion réussie');
+                    
+                    // Feedback visuel sur le champ de code
+                    const codeInput = document.getElementById('verification-code');
+                    if (codeInput) {
+                        codeInput.style.border = '3px solid #4CAF50';
+                        codeInput.style.backgroundColor = '#e8f5e8';
+                        codeInput.style.color = '#2e7d32';
+                        codeInput.style.fontWeight = 'bold';
+                    }
+                    
+                    // Mettre à jour l'interface
+                    document.querySelector('.admin-menu').classList.add('connected');
+                    document.querySelector('.admin-dropdown').classList.add('connected');
+                    document.querySelector('.verification-section').style.display = 'none';
+                    document.querySelector('.login-section').style.display = 'block';
+                    
+                    // Stocker l'état de connexion
+                    sessionStorage.setItem('adminConnected', 'true');
+                    sessionStorage.setItem('adminVerified', 'true');
+                    
+                    // Afficher les boutons admin
+                    afficherBoutonsAdmin();
+                    
+                    // Vider les champs
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    
+                    // Garder le code affiché 2 secondes puis le vider
+                    setTimeout(() => {
+                        document.getElementById('verification-code').value = '';
+                        if (codeInput) {
+                            codeInput.style.border = '';
+                            codeInput.style.backgroundColor = '';
+                            codeInput.style.color = '';
+                            codeInput.style.fontWeight = '';
+                        }
+                    }, 2000);
+                    
+                    // Message de succès
+                    afficherNotification('✅ Code accepté ! Connexion réussie. Tous les boutons sont disponibles.', 'success');
+                    
+                } else if (new Date().getTime() >= codeExpiration) {
+                    console.log('⏰ Code expiré');
+                    afficherNotification('⏰ Code expiré. Veuillez recommencer.', 'error');
+                    document.getElementById('verification-code').value = '';
+                    document.querySelector('.verification-section').style.display = 'none';
+                    document.querySelector('.login-section').style.display = 'block';
+                    verificationCode = null;
+                    codeExpiration = null;
+                    
+                } else {
+                    console.log('❌ Code incorrect');
+                    afficherNotification('❌ Code incorrect ! Veuillez réessayer.', 'error');
+                    document.getElementById('verification-code').value = '';
+                    
+                    // Surbrillance d'erreur
+                    const codeInput = document.getElementById('verification-code');
+                    if (codeInput) {
+                        codeInput.style.border = '2px solid #ff4444';
+                        codeInput.style.backgroundColor = '#fff5f5';
+                        setTimeout(() => {
+                            codeInput.style.border = '';
+                            codeInput.style.backgroundColor = '';
+                        }, 3000);
+                    }
+                }
+                
+                console.log('=== FIN VÉRIFICATION ===');
+            }
+            
+            // Initialiser la vérification au chargement
+            initialiserVerification();
+
+
+
+            // Fonction pour démarrer le timer du bouton renvoyer
+            function demarrerTimerRenvoyer() {
+                let tempsRestant = 60; // 60 secondes
+                btnResend.disabled = true;
+                btnResend.textContent = `Renvoyer (${tempsRestant}s)`;
+                
+                resendTimer = setInterval(() => {
+                    tempsRestant--;
+                    btnResend.textContent = `Renvoyer (${tempsRestant}s)`;
+                    
+                    if (tempsRestant <= 0) {
+                        clearInterval(resendTimer);
+                        btnResend.disabled = false;
+                        btnResend.textContent = 'Renvoyer le code';
+                    }
+                }, 1000);
+            }
+
+            // Fonction de test pour le bouton supprimer
+            window.testerSupprimer = function() {
+                console.log('=== TEST BOUTON SUPPRIMER ===');
+                const btnSupprimer = document.querySelector('.btn-supprimer');
+                console.log('btnSupprimer trouvé:', !!btnSupprimer);
+                if (btnSupprimer) {
+                    console.log('btnSupprimer onclick:', btnSupprimer.onclick);
+                    console.log('btnSupprimer display:', btnSupprimer.style.display);
+                    console.log('btnSupprimer disabled:', btnSupprimer.disabled);
+                }
+                
+                // Tester l'appel direct de la fonction
+                if (typeof window.supprimerEnfantDirect === 'function') {
+                    console.log('✅ Fonction supprimerEnfantDirect disponible');
+                    // Tester l'appel (sans exécution réelle)
+                    console.log('Test d\'appel de la fonction...');
+                } else {
+                    console.error('❌ Fonction supprimerEnfantDirect non disponible');
+                }
+            };
+
+            // Fonction de test pour la connexion admin
+            window.testerConnexionAdmin = function() {
+                console.log('=== TEST CONNEXION ADMIN ===');
+                console.log('sessionStorage adminConnected:', sessionStorage.getItem('adminConnected'));
+                console.log('sessionStorage adminVerified:', sessionStorage.getItem('adminVerified'));
+                console.log('adminActions existe:', !!document.getElementById('admin-actions'));
+                console.log('btnPhoto existe:', !!document.getElementById('btn-photo'));
+                console.log('addEnfantContainer existe:', !!document.getElementById('add-enfant-container'));
+                
+                const adminActions = document.getElementById('admin-actions');
+                const btnPhoto = document.getElementById('btn-photo');
+                const addEnfantContainer = document.getElementById('add-enfant-container');
+                
+                if (adminActions) {
+                    console.log('adminActions display:', adminActions.style.display);
+                }
+                if (btnPhoto) {
+                    console.log('btnPhoto display:', btnPhoto.style.display);
+                }
+                if (addEnfantContainer) {
+                    console.log('addEnfantContainer display:', addEnfantContainer.style.display);
+                }
+                
+                // Forcer l'affichage des boutons admin
+                if (sessionStorage.getItem('adminConnected') === 'true' && sessionStorage.getItem('adminVerified') === 'true') {
+                    console.log('Forçage de l\'affichage des boutons admin...');
+                    afficherBoutonsAdmin();
+                } else {
+                    console.log('Masquage des boutons admin...');
+                    masquerBoutonsAdmin();
+                }
+            };
+
+            // Fonction pour activer tous les boutons d'administration
+            function activerTousBoutonsAdmin() {
+                console.log('=== ACTIVATION TOUS BOUTONS ADMIN ===');
+                const btnSauvegarder = document.querySelector('.btn-sauvegarder');
+                const btnCharger = document.querySelector('.btn-charger');
+                const btnModifier = document.querySelector('.btn-modifier');
+                const btnSupprimer = document.querySelector('.btn-supprimer');
+                const btnGenerer = document.querySelector('.btn-generer');
+                const btnPhoto = document.getElementById('btn-photo');
+                
+                if (btnSauvegarder) {
+                    btnSauvegarder.disabled = false;
+                    console.log('btnSauvegarder activé');
+                }
+                if (btnCharger) {
+                    btnCharger.disabled = false;
+                    console.log('btnCharger activé');
+                }
+                if (btnModifier) {
+                    btnModifier.disabled = false;
+                    console.log('btnModifier activé');
+                }
+                if (btnSupprimer) {
+                    btnSupprimer.disabled = false;
+                    console.log('btnSupprimer activé');
+                }
+                if (btnGenerer) {
+                    btnGenerer.disabled = false;
+                    console.log('btnGenerer activé');
+                }
+                if (btnPhoto) {
+                    btnPhoto.disabled = false;
+                    console.log('btnPhoto activé');
+                }
+                console.log('=== FIN ACTIVATION TOUS BOUTONS ADMIN ===');
+            }
+
+            // Fonction pour forcer l'activation de tous les boutons (test)
+            window.activerTousBoutons = function() {
+                console.log('=== FORÇAGE ACTIVATION BOUTONS ===');
+                const btnSauvegarder = document.querySelector('.btn-sauvegarder');
+                const btnCharger = document.querySelector('.btn-charger');
+                const btnModifier = document.querySelector('.btn-modifier');
+                const btnSupprimer = document.querySelector('.btn-supprimer');
+                const btnGenerer = document.querySelector('.btn-generer');
+                const btnPhoto = document.getElementById('btn-photo');
+                
+                if (btnSauvegarder) {
+                    btnSauvegarder.disabled = false;
+                    console.log('btnSauvegarder activé');
+                }
+                if (btnCharger) {
+                    btnCharger.disabled = false;
+                    console.log('btnCharger activé');
+                }
+                if (btnModifier) {
+                    btnModifier.disabled = false;
+                    console.log('btnModifier activé');
+                }
+                if (btnSupprimer) {
+                    btnSupprimer.disabled = false;
+                    console.log('btnSupprimer activé');
+                }
+                if (btnGenerer) {
+                    btnGenerer.disabled = false;
+                    console.log('btnGenerer activé');
+                }
+                if (btnPhoto) {
+                    btnPhoto.disabled = false;
+                    console.log('btnPhoto activé');
+                }
+                console.log('=== FIN FORÇAGE ACTIVATION BOUTONS ===');
+            };
+
+            // Améliorer l'expérience de saisie du code de vérification
+            document.addEventListener('DOMContentLoaded', function() {
+                const verificationCodeInput = document.getElementById('verification-code');
+                
+                if (verificationCodeInput) {
+                    // Nettoyer automatiquement les caractères non numériques
+                    verificationCodeInput.addEventListener('input', function(e) {
+                        let value = this.value.replace(/[^0-9]/g, '');
+                        this.value = value;
+                        
+                        // Si on a 4 chiffres, soumettre automatiquement
+                        if (value.length === 4) {
+                            setTimeout(() => {
+                                console.log('Soumission automatique du formulaire de vérification');
+                                document.getElementById('verification-form').dispatchEvent(new Event('submit'));
+                            }, 100);
+                        }
+                    });
+                    
+                    // Gestion de la touche Entrée
+                    verificationCodeInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            console.log('Touche Entrée pressée - Soumission du formulaire');
+                            document.getElementById('verification-form').dispatchEvent(new Event('submit'));
+                        }
+                    });
+                    
+                    // Empêcher le collage de texte non numérique
+                    verificationCodeInput.addEventListener('paste', function(e) {
+                        e.preventDefault();
+                        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                        let numericValue = pastedText.replace(/[^0-9]/g, '').substring(0, 4);
+                        this.value = numericValue;
+                    });
+                    
+                    // Focus automatique sur le champ quand la section de vérification s'affiche
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                                if (document.querySelector('.verification-section').style.display !== 'none') {
+                                    setTimeout(() => {
+                                        verificationCodeInput.focus();
+                                    }, 100);
+                                }
+                            }
+                        });
+                    });
+                    
+                    observer.observe(document.querySelector('.verification-section'), {
+                        attributes: true,
+                        attributeFilter: ['style']
+                    });
+                }
+            });
+
+            // Fonction simple pour afficher les boutons admin
+            function afficherBoutonsAdmin() {
+                console.log('=== AFFICHAGE DES BOUTONS ADMIN ===');
+                const adminActions = document.getElementById('admin-actions');
+                const btnPhoto = document.getElementById('btn-photo');
+                const addEnfantContainer = document.getElementById('add-enfant-container');
+                const adminActionsMenu = document.querySelector('.admin-actions');
+                const btnSupprimer = document.querySelector('.btn-supprimer');
+                
+                console.log('adminActions trouvé:', !!adminActions);
+                console.log('btnPhoto trouvé:', !!btnPhoto);
+                console.log('addEnfantContainer trouvé:', !!addEnfantContainer);
+                console.log('adminActionsMenu trouvé:', !!adminActionsMenu);
+                console.log('btnSupprimer trouvé:', !!btnSupprimer);
+                
+                if (adminActions) {
+                    adminActions.style.display = 'flex';
+                    console.log('adminActions affiché');
+                }
+                if (btnPhoto) {
+                    btnPhoto.style.display = 'block';
+                    console.log('btnPhoto affiché');
+                }
+                if (addEnfantContainer) {
+                    addEnfantContainer.style.display = 'block';
+                    console.log('addEnfantContainer affiché');
+                }
+                if (adminActionsMenu) {
+                    adminActionsMenu.style.display = 'block';
+                    console.log('adminActionsMenu affiché');
+                }
+                if (btnSupprimer) {
+                    btnSupprimer.style.display = 'block';
+                    console.log('btnSupprimer affiché');
+                }
+                
+                // Activer tous les boutons d'administration
+                activerTousBoutonsAdmin();
+                console.log('=== FIN AFFICHAGE DES BOUTONS ADMIN ===');
+            }
+
+            // Fonction simple pour masquer les boutons admin
+            function masquerBoutonsAdmin() {
+                const adminActions = document.getElementById('admin-actions');
+                const btnPhoto = document.getElementById('btn-photo');
+                const addEnfantContainer = document.getElementById('add-enfant-container');
+                const adminActionsMenu = document.querySelector('.admin-actions');
+                const btnSupprimer = document.querySelector('.btn-supprimer');
+                
+                if (adminActions) adminActions.style.display = 'none';
+                if (btnPhoto) btnPhoto.style.display = 'none';
+                if (addEnfantContainer) addEnfantContainer.style.display = 'none';
+                if (adminActionsMenu) adminActionsMenu.style.display = 'none';
+                if (btnSupprimer) btnSupprimer.style.display = 'none';
+            }
+
+
+
+            // Synchronisation des champs mobile et desktop pour 1er, 2ème, 3ème trimestres et résultat global
+            function synchroniserChampsMobile() {
+                // Champs mobile 1er trimestre vers desktop
+                const moyenne1Mobile = document.getElementById('moyenne1-mobile');
+                const rang1Mobile = document.getElementById('rang1-mobile');
+                const effectif1Mobile = document.getElementById('effectif1-mobile');
+                const forteMoyenne1Mobile = document.getElementById('forteMoyenne1-mobile');
+                const faibleMoyenne1Mobile = document.getElementById('faibleMoyenne1-mobile');
+                const appreciation1Mobile = document.getElementById('appreciation1-mobile');
+                
+                // Champs mobile 2ème trimestre vers desktop
+                const moyenne2Mobile = document.getElementById('moyenne2-mobile');
+                const rang2Mobile = document.getElementById('rang2-mobile');
+                const effectif2Mobile = document.getElementById('effectif2-mobile');
+                const forteMoyenne2Mobile = document.getElementById('forteMoyenne2-mobile');
+                const faibleMoyenne2Mobile = document.getElementById('faibleMoyenne2-mobile');
+                const appreciation2Mobile = document.getElementById('appreciation2-mobile');
+                
+                // Champs mobile 3ème trimestre vers desktop
+                const moyenne3Mobile = document.getElementById('moyenne3-mobile');
+                const rang3Mobile = document.getElementById('rang3-mobile');
+                const effectif3Mobile = document.getElementById('effectif3-mobile');
+                const forteMoyenne3Mobile = document.getElementById('forteMoyenne3-mobile');
+                const faibleMoyenne3Mobile = document.getElementById('faibleMoyenne3-mobile');
+                const appreciation3Mobile = document.getElementById('appreciation3-mobile');
+                
+                // Champs mobile résultat global vers desktop
+                const moyenneAnnuelleMobile = document.getElementById('moyenneAnnuelle-mobile');
+                const rangAnnuelMobile = document.getElementById('rangAnnuel-mobile');
+                const effectifAnnuelMobile = document.getElementById('effectifAnnuel-mobile');
+                const appreciationAnnuelleMobile = document.getElementById('appreciationAnnuelle-mobile');
+                const decisionMobile = document.getElementById('decision-mobile');
+                const classeSuivanteMobile = document.getElementById('classeSuivante-mobile');
+                
+                // Champs desktop 1er trimestre
+                const moyenne1 = document.getElementById('moyenne1');
+                const rang1 = document.getElementById('rang1');
+                const effectif1 = document.getElementById('effectif1');
+                const forteMoyenne1 = document.getElementById('forteMoyenne1');
+                const faibleMoyenne1 = document.getElementById('faibleMoyenne1');
+                const appreciation1 = document.getElementById('appreciation1');
+                
+                // Champs desktop 2ème trimestre
+                const moyenne2 = document.getElementById('moyenne2');
+                const rang2 = document.getElementById('rang2');
+                const effectif2 = document.getElementById('effectif2');
+                const forteMoyenne2 = document.getElementById('forteMoyenne2');
+                const faibleMoyenne2 = document.getElementById('faibleMoyenne2');
+                const appreciation2 = document.getElementById('appreciation2');
+                
+                // Champs desktop 3ème trimestre
+                const moyenne3 = document.getElementById('moyenne3');
+                const rang3 = document.getElementById('rang3');
+                const effectif3 = document.getElementById('effectif3');
+                const forteMoyenne3 = document.getElementById('forteMoyenne3');
+                const faibleMoyenne3 = document.getElementById('faibleMoyenne3');
+                const appreciation3 = document.getElementById('appreciation3');
+                
+                // Champs desktop résultat global
+                const moyenneAnnuelle = document.getElementById('moyenneAnnuelle');
+                const rangAnnuel = document.getElementById('rangAnnuel');
+                const effectifAnnuel = document.getElementById('effectifAnnuel');
+                const appreciationAnnuelle = document.getElementById('appreciationAnnuelle');
+                const decision = document.getElementById('decision');
+                const classeSuivante = document.getElementById('classeSuivante');
+                
+                // Synchronisation mobile vers desktop
+                if (moyenne1Mobile && moyenne1) {
+                    moyenne1Mobile.addEventListener('input', function() {
+                        moyenne1.value = this.value;
+                    });
+                }
+                
+                if (rang1Mobile && rang1) {
+                    rang1Mobile.addEventListener('input', function() {
+                        rang1.value = this.value;
+                    });
+                }
+                
+                if (effectif1Mobile && effectif1) {
+                    effectif1Mobile.addEventListener('input', function() {
+                        effectif1.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne1Mobile && forteMoyenne1) {
+                    forteMoyenne1Mobile.addEventListener('input', function() {
+                        forteMoyenne1.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne1Mobile && faibleMoyenne1) {
+                    faibleMoyenne1Mobile.addEventListener('input', function() {
+                        faibleMoyenne1.value = this.value;
+                    });
+                }
+                
+                if (appreciation1Mobile && appreciation1) {
+                    appreciation1Mobile.addEventListener('change', function() {
+                        appreciation1.value = this.value;
+                    });
+                }
+                
+                // Synchronisation desktop vers mobile
+                if (moyenne1 && moyenne1Mobile) {
+                    moyenne1.addEventListener('input', function() {
+                        moyenne1Mobile.value = this.value;
+                    });
+                }
+                
+                if (rang1 && rang1Mobile) {
+                    rang1.addEventListener('input', function() {
+                        rang1Mobile.value = this.value;
+                    });
+                }
+                
+                if (effectif1 && effectif1Mobile) {
+                    effectif1.addEventListener('input', function() {
+                        effectif1Mobile.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne1 && forteMoyenne1Mobile) {
+                    forteMoyenne1.addEventListener('input', function() {
+                        forteMoyenne1Mobile.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne1 && faibleMoyenne1Mobile) {
+                    faibleMoyenne1.addEventListener('input', function() {
+                        faibleMoyenne1Mobile.value = this.value;
+                    });
+                }
+                
+                if (appreciation1 && appreciation1Mobile) {
+                    appreciation1.addEventListener('change', function() {
+                        appreciation1Mobile.value = this.value;
+                    });
+                }
+                
+                // Synchronisation 2ème trimestre mobile vers desktop
+                if (moyenne2Mobile && moyenne2) {
+                    moyenne2Mobile.addEventListener('input', function() {
+                        moyenne2.value = this.value;
+                    });
+                }
+                
+                if (rang2Mobile && rang2) {
+                    rang2Mobile.addEventListener('input', function() {
+                        rang2.value = this.value;
+                    });
+                }
+                
+                if (effectif2Mobile && effectif2) {
+                    effectif2Mobile.addEventListener('input', function() {
+                        effectif2.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne2Mobile && forteMoyenne2) {
+                    forteMoyenne2Mobile.addEventListener('input', function() {
+                        forteMoyenne2.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne2Mobile && faibleMoyenne2) {
+                    faibleMoyenne2Mobile.addEventListener('input', function() {
+                        faibleMoyenne2.value = this.value;
+                    });
+                }
+                
+                if (appreciation2Mobile && appreciation2) {
+                    appreciation2Mobile.addEventListener('change', function() {
+                        appreciation2.value = this.value;
+                    });
+                }
+                
+                // Synchronisation 2ème trimestre desktop vers mobile
+                if (moyenne2 && moyenne2Mobile) {
+                    moyenne2.addEventListener('input', function() {
+                        moyenne2Mobile.value = this.value;
+                    });
+                }
+                
+                if (rang2 && rang2Mobile) {
+                    rang2.addEventListener('input', function() {
+                        rang2Mobile.value = this.value;
+                    });
+                }
+                
+                if (effectif2 && effectif2Mobile) {
+                    effectif2.addEventListener('input', function() {
+                        effectif2Mobile.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne2 && forteMoyenne2Mobile) {
+                    forteMoyenne2.addEventListener('input', function() {
+                        forteMoyenne2Mobile.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne2 && faibleMoyenne2Mobile) {
+                    faibleMoyenne2.addEventListener('input', function() {
+                        faibleMoyenne2Mobile.value = this.value;
+                    });
+                }
+                
+                if (appreciation2 && appreciation2Mobile) {
+                    appreciation2.addEventListener('change', function() {
+                        appreciation2Mobile.value = this.value;
+                    });
+                }
+                
+                // Synchronisation 3ème trimestre mobile vers desktop
+                if (moyenne3Mobile && moyenne3) {
+                    moyenne3Mobile.addEventListener('input', function() {
+                        moyenne3.value = this.value;
+                    });
+                }
+                
+                if (rang3Mobile && rang3) {
+                    rang3Mobile.addEventListener('input', function() {
+                        rang3.value = this.value;
+                    });
+                }
+                
+                if (effectif3Mobile && effectif3) {
+                    effectif3Mobile.addEventListener('input', function() {
+                        effectif3.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne3Mobile && forteMoyenne3) {
+                    forteMoyenne3Mobile.addEventListener('input', function() {
+                        forteMoyenne3.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne3Mobile && faibleMoyenne3) {
+                    faibleMoyenne3Mobile.addEventListener('input', function() {
+                        faibleMoyenne3.value = this.value;
+                    });
+                }
+                
+                if (appreciation3Mobile && appreciation3) {
+                    appreciation3Mobile.addEventListener('change', function() {
+                        appreciation3.value = this.value;
+                    });
+                }
+                
+                // Synchronisation 3ème trimestre desktop vers mobile
+                if (moyenne3 && moyenne3Mobile) {
+                    moyenne3.addEventListener('input', function() {
+                        moyenne3Mobile.value = this.value;
+                    });
+                }
+                
+                if (rang3 && rang3Mobile) {
+                    rang3.addEventListener('input', function() {
+                        rang3Mobile.value = this.value;
+                    });
+                }
+                
+                if (effectif3 && effectif3Mobile) {
+                    effectif3.addEventListener('input', function() {
+                        effectif3Mobile.value = this.value;
+                    });
+                }
+                
+                if (forteMoyenne3 && forteMoyenne3Mobile) {
+                    forteMoyenne3.addEventListener('input', function() {
+                        forteMoyenne3Mobile.value = this.value;
+                    });
+                }
+                
+                if (faibleMoyenne3 && faibleMoyenne3Mobile) {
+                    faibleMoyenne3.addEventListener('input', function() {
+                        faibleMoyenne3Mobile.value = this.value;
+                    });
+                }
+                
+                if (appreciation3 && appreciation3Mobile) {
+                    appreciation3.addEventListener('change', function() {
+                        appreciation3Mobile.value = this.value;
+                    });
+                }
+                
+                // Synchronisation résultat global mobile vers desktop
+                if (moyenneAnnuelleMobile && moyenneAnnuelle) {
+                    moyenneAnnuelleMobile.addEventListener('input', function() {
+                        moyenneAnnuelle.value = this.value;
+                    });
+                }
+                
+                if (rangAnnuelMobile && rangAnnuel) {
+                    rangAnnuelMobile.addEventListener('input', function() {
+                        rangAnnuel.value = this.value;
+                    });
+                }
+                
+                if (effectifAnnuelMobile && effectifAnnuel) {
+                    effectifAnnuelMobile.addEventListener('input', function() {
+                        effectifAnnuel.value = this.value;
+                    });
+                }
+                
+                if (appreciationAnnuelleMobile && appreciationAnnuelle) {
+                    appreciationAnnuelleMobile.addEventListener('change', function() {
+                        appreciationAnnuelle.value = this.value;
+                    });
+                }
+                
+                if (decisionMobile && decision) {
+                    decisionMobile.addEventListener('change', function() {
+                        decision.value = this.value;
+                    });
+                }
+                
+                if (classeSuivanteMobile && classeSuivante) {
+                    classeSuivanteMobile.addEventListener('input', function() {
+                        classeSuivante.value = this.value;
+                    });
+                }
+                
+                // Synchronisation résultat global desktop vers mobile
+                if (moyenneAnnuelle && moyenneAnnuelleMobile) {
+                    moyenneAnnuelle.addEventListener('input', function() {
+                        moyenneAnnuelleMobile.value = this.value;
+                    });
+                }
+                
+                if (rangAnnuel && rangAnnuelMobile) {
+                    rangAnnuel.addEventListener('input', function() {
+                        rangAnnuelMobile.value = this.value;
+                    });
+                }
+                
+                if (effectifAnnuel && effectifAnnuelMobile) {
+                    effectifAnnuel.addEventListener('input', function() {
+                        effectifAnnuelMobile.value = this.value;
+                    });
+                }
+                
+                if (appreciationAnnuelle && appreciationAnnuelleMobile) {
+                    appreciationAnnuelle.addEventListener('change', function() {
+                        appreciationAnnuelleMobile.value = this.value;
+                    });
+                }
+                
+                if (decision && decisionMobile) {
+                    decision.addEventListener('change', function() {
+                        decisionMobile.value = this.value;
+                    });
+                }
+                
+                if (classeSuivante && classeSuivanteMobile) {
+                    classeSuivante.addEventListener('input', function() {
+                        classeSuivanteMobile.value = this.value;
+                    });
+                }
+            }
+            
+            // Initialiser la synchronisation au chargement de la page
+            document.addEventListener('DOMContentLoaded', function() {
+                synchroniserChampsMobile();
+            });
+
+            // Vérifier la connexion au démarrage
+            verifierConnexionAdminAuDemarrage();
+
+
+        });
+    </script>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/1Zmha7K2R4/" target="_blank">
+                <img src="image/facebook.jpg" alt="Facebook">
+            </a>
+            <a href="mailto:borisakpatcha@gmail.com">
+                <img src="image/gmail.jpg" alt="Gmail">
+            </a>
+            <a href="https://wa.me/22898171819" target="_blank">
+                <img src="image/whatsapp.jpg" alt="WhatsApp">
+            </a>
+        </div>
+        <div class="footer-text">
+            <p>Copyright © 2025 Eglises MGJC· tout droits reservés.</p>
+            <div class="footer-links">
+                <a href="#">Politique de confidentialité</a>
+                <a href="#">Mentions légales</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

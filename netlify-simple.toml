@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "/server.js"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/maquette.html"
+  status = 200 
